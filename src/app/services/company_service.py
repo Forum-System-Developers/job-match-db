@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from app.exceptions.custom_exceptions import ApplicationError
 from app.schemas.common import FilterParams, MessageResponse
 from app.schemas.company import CompanyCreate, CompanyResponse, CompanyUpdate
+from app.services.common import get_company_by_id
 from app.sql_app.company.company import Company
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,7 @@ def get_by_id(company_id: UUID, db: Session) -> CompanyResponse:
     Raises:
         ApplicationError: If no company is found with the given ID.
     """
-    company = _get_company_by_id(company_id=company_id, db=db)
+    company = get_company_by_id(company_id=company_id, db=db)
     logger.info(f"Retrieved company with id {company_id}")
 
     return CompanyResponse.create(company)
@@ -119,7 +120,7 @@ def update(
     Returns:
         CompanyResponse: The response object containing the updated company's details.
     """
-    company = _get_company_by_id(company_id=company_id, db=db)
+    company = get_company_by_id(company_id=company_id, db=db)
     for attr, value in vars(company_data).items():
         if value is not None:
             setattr(company, attr, value)
@@ -146,7 +147,7 @@ def upload_logo(company_id: UUID, logo: UploadFile, db: Session) -> MessageRespo
     Returns:
         MessageResponse: A response message indicating the result of the upload operation.
     """
-    company = _get_company_by_id(company_id=company_id, db=db)
+    company = get_company_by_id(company_id=company_id, db=db)
     company.logo = logo.file.read()
     company.updated_at = datetime.now()
     db.commit()
@@ -166,7 +167,7 @@ def download_logo(company_id: UUID, db: Session) -> StreamingResponse:
     Raises:
         ApplicationError: If the company does not have a logo or does not exist.
     """
-    company = _get_company_by_id(company_id=company_id, db=db)
+    company = get_company_by_id(company_id=company_id, db=db)
     logo = company.logo
     if logo is None:
         raise HTTPException(
@@ -176,27 +177,3 @@ def download_logo(company_id: UUID, db: Session) -> StreamingResponse:
     logger.info(f"Downloaded logo of company with id {company_id}")
 
     return StreamingResponse(io.BytesIO(logo), media_type="image/png")
-
-
-def _get_company_by_id(company_id: UUID, db: Session) -> Company:
-    """
-    Ensure that a company with the given ID exists in the database.
-
-    Args:
-        company_id (UUID): The unique identifier of the company.
-        db (Session): The database session.
-
-    Returns:
-        Company: The company object with the given ID.
-
-    Raises:
-        ApplicationError: If no company is found with the given ID.
-    """
-    company = db.query(Company).filter(Company.id == company_id).first()
-    if company is None:
-        logger.error(f"No company found with id {company_id}")
-        raise ApplicationError(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No company found with id {company_id}",
-        )
-    return company
