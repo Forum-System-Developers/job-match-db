@@ -52,7 +52,7 @@ class Company(Base):
         UUID(as_uuid=True), ForeignKey("city.id"), nullable=False
     )
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(64), nullable=False)
+    password_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=False)
     address_line: Mapped[str] = mapped_column(String, nullable=False)

@@ -13,3 +13,6 @@ api_router.include_router(city_router.router, prefix="/cities", tags=["Cities"])
 
 
 api_router.include_router(skill_router.router, prefix="/skills", tags=["Skills"])
+
+
+api_router.include_router(skill_router.router, prefix="/skills", tags=["Skills"])
