@@ -20,6 +20,7 @@ from app.schemas.professional import (
 )
 from app.schemas.skill import SkillResponse
 from app.services import match_service
+from app.services.common import get_professional_by_id
 from app.sql_app.job_ad.job_ad import JobAd
 from app.sql_app.job_application.job_application import JobApplication
 from app.sql_app.job_application.job_application_status import JobStatus
@@ -81,7 +82,7 @@ def get_by_id(professional_id: UUID, db: Session) -> ProfessionalResponse:
     Returns:
         ProfessionalResponse: The created professional profile response.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
 
     matched_ads = (
         _get_matches(professional_id=professional_id, db=db)
@@ -125,7 +126,7 @@ def update(
     professional_data: ProfessionalUpdate,
     db: Session,
 ) -> ProfessionalResponse:
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
 
     for attr, value in vars(professional_data).items():
         if value is not None:
@@ -155,7 +156,7 @@ def upload_photo(
     Returns:
         MessageResponse: A response message indicating the result of the upload operation.
     """
-    profesional = _get_professional_by_id(professional_id=professional_id, db=db)
+    profesional = get_professional_by_id(professional_id=professional_id, db=db)
     profesional.photo = photo.file.read()
     profesional.updated_at = datetime.now()
 
@@ -182,7 +183,7 @@ def download_photo(
     Raises:
         HTTPException: If the professional does not have a photo, a 404 error is raised.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
     photo = professional.photo
     if photo is None:
         raise HTTPException(
@@ -206,7 +207,7 @@ def upload_cv(professional_id: UUID, cv: UploadFile, db: Session) -> MessageResp
     Returns:
         MessageResponse: A response message indicating the result of the operation.
     """
-    profesional = _get_professional_by_id(professional_id=professional_id, db=db)
+    profesional = get_professional_by_id(professional_id=professional_id, db=db)
     profesional.cv = cv.file.read()
     profesional.updated_at = datetime.now()
 
@@ -230,7 +231,7 @@ def download_cv(professional_id: UUID, db: Session) -> StreamingResponse:
     Raises:
         HTTPException: If the CV for the given professional ID is not found.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
     cv = professional.cv
     if cv is None:
         raise HTTPException(
@@ -255,7 +256,7 @@ def delete_cv(professional_id: UUID, db: Session) -> MessageResponse:
     Raises:
         ApplicationError: If the professional's CV is not found.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
     if professional.cv is None:
         raise ApplicationError(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -284,7 +285,7 @@ def set_matches_status(
     Returns:
         MessageResponse: A response message indicating the new status of the matches.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
     professional.has_private_matches = private_matches.status
 
     db.commit()
@@ -344,7 +345,7 @@ def get_applications(
     Raises:
         ApplicationError: If the professional has set their matches to private and the application status is 'MATCHED'.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
     if (
         professional.has_private_matches
         and application_status.value == JobSearchStatus.MATCHED
@@ -386,7 +387,7 @@ def get_skills(professional_id: UUID, db: Session) -> list[SkillResponse]:
     Returns:
         list[SkillResponse]: A list of SkillResponse objects representing the skills.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
     professional_job_applications = professional.job_applications
     skills = {
         skill.skill
@@ -411,42 +412,13 @@ def get_match_requests(professional_id: UUID, db: Session) -> list[MatchRequestA
     Returns:
         list[MatchRequest]: List of Pydantic models containing basic information about the match request.
     """
-    professional = _get_professional_by_id(professional_id=professional_id, db=db)
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
 
     match_requests = match_service.get_match_requests_for_professional(
         professional_id=professional.id, db=db
     )
 
     return match_requests
-
-
-def _get_professional_by_id(professional_id: UUID, db: Session) -> Professional:
-    """
-    Retrieves an instance of the Professional model or None.
-
-    Args:
-        professional_id (UUID): The identifier of the Professional.
-        db (Session): Database dependency.
-
-    Returns:
-        Professional: SQLAlchemy model for Professional.
-
-    Raises:
-        ApplicationError: If the professional with the given id is
-            not found in the database.
-    """
-    professional = (
-        db.query(Professional).filter(Professional.id == professional_id).first()
-    )
-    if professional is None:
-        logger.error(f"Professional with id {professional_id} not found")
-        raise ApplicationError(
-            detail=f"Professional with id {professional_id} not found",
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-
-    logger.info(f"Professional with id {professional_id} fetched")
-    return professional
 
 
 def _get_matches(professional_id: UUID, db: Session) -> list[JobAdPreview]:
