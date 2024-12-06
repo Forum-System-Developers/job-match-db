@@ -48,7 +48,7 @@ def get_by_id(company_id: UUID, db: Session) -> CompanyResponse:
     Raises:
         ApplicationError: If no company is found with the given ID.
     """
-    company = _ensure_company_exists(company_id=company_id, db=db)
+    company = _get_company_by_id(company_id=company_id, db=db)
     logger.info(f"Retrieved company with id {company_id}")
 
     return CompanyResponse.create(company)
@@ -119,7 +119,7 @@ def update(
     Returns:
         CompanyResponse: The response object containing the updated company's details.
     """
-    company = _ensure_company_exists(company_id=company_id, db=db)
+    company = _get_company_by_id(company_id=company_id, db=db)
     for attr, value in vars(company_data).items():
         if value is not None:
             setattr(company, attr, value)
@@ -146,7 +146,7 @@ def upload_logo(company_id: UUID, logo: UploadFile, db: Session) -> MessageRespo
     Returns:
         MessageResponse: A response message indicating the result of the upload operation.
     """
-    company = _ensure_company_exists(company_id=company_id, db=db)
+    company = _get_company_by_id(company_id=company_id, db=db)
     company.logo = logo.file.read()
     company.updated_at = datetime.now()
     db.commit()
@@ -166,7 +166,7 @@ def download_logo(company_id: UUID, db: Session) -> StreamingResponse:
     Raises:
         ApplicationError: If the company does not have a logo or does not exist.
     """
-    company = _ensure_company_exists(company_id=company_id, db=db)
+    company = _get_company_by_id(company_id=company_id, db=db)
     logo = company.logo
     if logo is None:
         raise HTTPException(
@@ -178,7 +178,7 @@ def download_logo(company_id: UUID, db: Session) -> StreamingResponse:
     return StreamingResponse(io.BytesIO(logo), media_type="image/png")
 
 
-def _ensure_company_exists(company_id: UUID, db: Session) -> Company:
+def _get_company_by_id(company_id: UUID, db: Session) -> Company:
     """
     Ensure that a company with the given ID exists in the database.
 
