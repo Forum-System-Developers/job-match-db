@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, Integer, LargeBinary, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.sql import func
+from sqlalchemy.sql import expression, func
 
 from app.sql_app.database import Base
 from app.sql_app.professional.professional_status import ProfessionalStatus
@@ -64,7 +64,9 @@ class Professional(Base):
     photo: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
     cv: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
     status: Mapped[ProfessionalStatus] = mapped_column(
-        Enum(ProfessionalStatus, native_enum=True), nullable=False
+        Enum(ProfessionalStatus, native_enum=True),
+        nullable=False,
+        server_default=expression.literal(ProfessionalStatus.ACTIVE.name),
     )
     active_application_count: Mapped[int] = mapped_column(
         Integer, nullable=False, default=0
