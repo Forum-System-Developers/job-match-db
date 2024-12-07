@@ -69,7 +69,6 @@ def create(
 ) -> JSONResponse:
     def _create():
         return job_application_service.create(
-            professional_id=job_application_create.professional_id,
             job_application_create=job_application_create,
             db=db,
         )
@@ -82,22 +81,20 @@ def create(
 
 
 @router.put(
-    "/{job_application_id}/{professional_id}",
+    "/{job_application_id}/",
     description="Update a Job Application.",
 )
 def update(
     job_application_id: UUID,
-    professional_id: UUID,
-    application_update: JobApplicationUpdate = Body(
+    job_application_data: JobApplicationUpdate = Body(
         description="Job Application update form"
     ),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _update():
         return job_application_service.update(
-            professional_id=professional_id,
             job_application_id=job_application_id,
-            job_application_update=application_update,
+            job_application_data=job_application_data,
             db=db,
         )
 

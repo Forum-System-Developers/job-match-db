@@ -39,7 +39,7 @@ def create_skill(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _create_skill():
-        return skill_service.create(db, skill_data)
+        return skill_service.create(skill_data=skill_data, db=db)
 
     return process_request(
         get_entities_fn=_create_skill,

@@ -11,7 +11,11 @@ from app.schemas.job_application import (
     JobApplicationUpdate,
 )
 from app.schemas.skill import SkillBase
-from app.services.common import get_job_application_by_id, get_skill_by_name
+from app.services.common import (
+    get_job_application_by_id,
+    get_professional_by_id,
+    get_skill_by_name,
+)
 from app.sql_app.job_application.job_application import JobApplication
 from app.sql_app.job_application.job_application_status import JobStatus
 from app.sql_app.job_application_skill.job_application_skill import JobApplicationSkill
@@ -101,8 +105,12 @@ def create(
     Returns:
         JobApplicationResponse: The response object containing the created job application details.
     """
+    professional = get_professional_by_id(
+        professional_id=job_application_create.professional_id, db=db
+    )
     job_application = JobApplication(
-        **job_application_create.model_dump(exclude={"skills"})
+        **job_application_create.model_dump(exclude={"skills", "status"}),
+        status=job_application_create.status.name,
     )
 
     _add_skills(
@@ -111,7 +119,7 @@ def create(
         db=db,
     )
 
-    job_application.professional.active_application_count += 1
+    professional.active_application_count += 1
 
     db.add(job_application)
     db.commit()
@@ -185,7 +193,8 @@ def _add_skills(
     """
     for skill in skills:
         skill_model = get_skill_by_name(skill_name=skill.name, db=db)
-        JobApplicationSkill(
+        job_application_skill = JobApplicationSkill(
             job_application_id=job_application, skill_id=skill_model.id, db=db
         )
+        db.add(job_application_skill)
         logger.info(f"Added skill {skill.name} to job application {job_application.id}")

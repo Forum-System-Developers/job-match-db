@@ -58,9 +58,7 @@ def create_job_ad(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _create_job_ad():
-        return job_ad_service.create(
-            company_id=job_ad_data.company_id, job_ad_data=job_ad_data, db=db
-        )
+        return job_ad_service.create(job_ad_data=job_ad_data, db=db)
 
     return process_request(
         get_entities_fn=_create_job_ad,
@@ -81,7 +79,6 @@ def update_job_ad(
     def _update_job_ad():
         return job_ad_service.update(
             job_ad_id=job_ad_id,
-            company_id=job_ad_data.company_id,
             job_ad_data=job_ad_data,
             db=db,
         )

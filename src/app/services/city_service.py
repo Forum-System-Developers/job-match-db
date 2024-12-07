@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import status
 from sqlalchemy.orm import Session
 
@@ -20,7 +22,10 @@ def get_all(db: Session) -> list[CityResponse]:
     return [CityResponse(id=city.id, name=city.name) for city in cities]
 
 
-def get_by_id(db: Session, city_id: int) -> CityResponse:
+def get_by_id(
+    city_id: UUID,
+    db: Session,
+) -> CityResponse:
     """
     Retrieve a city by its identifier.
 
@@ -43,13 +48,16 @@ def get_by_id(db: Session, city_id: int) -> CityResponse:
     return CityResponse(id=city.id, name=city.name)
 
 
-def get_by_name(db: Session, city_name: str) -> CityResponse:
+def get_by_name(
+    city_name: str,
+    db: Session,
+) -> CityResponse:
     """
     Retrieve a city by its name.
 
     Args:
-        db (Session): The database session used to query the city.
         city_name (str): The name of the city to retrieve.
+        db (Session): The database session used to query the city.
 
     Returns:
         CityResponse: A CityResponse object containing the id and name of the city.

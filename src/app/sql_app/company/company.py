@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import DateTime, ForeignKey, Integer, LargeBinary, String, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.sql import expression
 
 from app.sql_app.database import Base
 
@@ -61,7 +62,9 @@ class Company(Base):
     website_url: Mapped[str] = mapped_column(String, nullable=True)
     youtube_video_id: Mapped[str] = mapped_column(String, nullable=True)
     logo: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
-    active_job_count: Mapped[int] = mapped_column(Integer, nullable=True)
+    active_job_count: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=expression.text("0")
+    )
     successfull_matches_count: Mapped[int] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False

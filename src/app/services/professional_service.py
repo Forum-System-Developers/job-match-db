@@ -47,14 +47,8 @@ def get_all(
     Returns:
         list[ProfessionalResponse]: A list of ProfessionalResponse objects representing the active professionals.
     """
-    professionals = (
-        db.query(Professional)
-        .filter(Professional.status == ProfessionalStatus.ACTIVE)
-        .offset(filter_params.offset)
-        .limit(filter_params.limit)
-    )
-    logger.info(
-        f"Retrieved all professionals with status ACTIVE and filtered by offset {filter_params.offset} and limit {filter_params.limit}"
+    professionals = db.query(Professional).filter(
+        Professional.status == ProfessionalStatus.ACTIVE
     )
 
     if search_params.order == "desc":
@@ -63,6 +57,13 @@ def get_all(
         professionals.order_by(getattr(Professional, search_params.order_by).asc())
     logger.info(
         f"Order Professionals based on search params order {search_params.order} and order_by {search_params.order_by}"
+    )
+
+    professionals = professionals.offset(filter_params.offset).limit(
+        filter_params.limit
+    )
+    logger.info(
+        f"Retrieved all professionals with status ACTIVE and filtered by offset {filter_params.offset} and limit {filter_params.limit}"
     )
 
     return [

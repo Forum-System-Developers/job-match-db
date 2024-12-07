@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -22,9 +24,9 @@ def get_all_cities(db: Session = Depends(get_db)) -> JSONResponse:
 
 
 @router.get("/{city_id}", description="Retrieve a city by its identifier.")
-def get_city_by_id(city_id: int, db: Session = Depends(get_db)) -> JSONResponse:
+def get_city_by_id(city_id: UUID, db: Session = Depends(get_db)) -> JSONResponse:
     def _get_city_by_id():
-        return city_service.get_by_id(db, city_id)
+        return city_service.get_by_id(city_id=city_id, db=db)
 
     return process_request(
         get_entities_fn=_get_city_by_id,
@@ -36,7 +38,7 @@ def get_city_by_id(city_id: int, db: Session = Depends(get_db)) -> JSONResponse:
 @router.get("/{city_name}/name", description="Retrieve a city by its name.")
 def get_city_by_name(city_name: str, db: Session = Depends(get_db)) -> JSONResponse:
     def _get_city_by_name():
-        return city_service.get_by_name(db, city_name)
+        return city_service.get_by_name(city_name=city_name, db=db)
 
     return process_request(
         get_entities_fn=_get_city_by_name,
