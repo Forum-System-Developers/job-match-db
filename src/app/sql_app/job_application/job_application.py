@@ -11,10 +11,9 @@ from app.sql_app.category_job_application.category_job_application import (
 )
 from app.sql_app.database import Base
 from app.sql_app.job_application.job_application_status import JobStatus
-from app.sql_app.skill.skill import Skill
 
 if TYPE_CHECKING:
-    from app.sql_app import City, Match, Professional
+    from app.sql_app import City, Match, Professional, Skill
 
 
 class JobApplication(Base):
