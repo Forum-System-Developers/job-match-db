@@ -41,7 +41,7 @@ def get_all(
     return [JobAdResponse.create(job_ad) for job_ad in job_ads_list]
 
 
-def get_by_id(id: UUID, db: Session) -> JobAdResponse:
+def get_by_id(job_ad_id: UUID, db: Session) -> JobAdResponse:
     """
     Retrieve a job advertisement by its unique identifier.
 
@@ -52,8 +52,8 @@ def get_by_id(id: UUID, db: Session) -> JobAdResponse:
     Returns:
         JobAdResponse: The job advertisement if found, otherwise None.
     """
-    job_ad = get_job_ad_by_id(job_ad_id=id, db=db)
-    logger.info(f"Retrieved job ad with id {id}")
+    job_ad = get_job_ad_by_id(job_ad_id=job_ad_id, db=db)
+    logger.info(f"Retrieved job ad with id {job_ad_id}")
 
     return JobAdResponse.create(job_ad)
 
