@@ -51,16 +51,6 @@ class CompanyCreate(BaseModel):
     email: EmailStr
     phone_number: str
 
-    @field_validator("password")
-    def check_password(cls, password):
-        if not re.match(PASSWORD_REGEX, password):
-            raise ValueError(
-                "Password must contain at least one lowercase letter, \
-                one uppercase letter, one digit, one special character(@$!%*?&), \
-                and be between 8 and 30 characters long."
-            )
-        return password
-
 
 class CompanyUpdate(BaseModel):
     name: str | None = None
