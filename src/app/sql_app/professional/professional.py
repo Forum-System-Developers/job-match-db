@@ -58,7 +58,7 @@ class Professional(Base):
         nullable=True,
     )
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(64), nullable=False)
+    password_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=False)
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     photo: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
