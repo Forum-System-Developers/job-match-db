@@ -1,8 +1,9 @@
 import logging
-from typing import Callable
+from typing import Any, Callable
 
 from fastapi import status
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from app.exceptions.custom_exceptions import ApplicationError
 
@@ -32,7 +33,7 @@ def process_request(
     """
     try:
         response = get_entities_fn()
-        return JSONResponse(status_code=status_code, content=response)
+        return JSONResponse(status_code=status_code, content=_format_response(response))
     except ApplicationError as ex:
         logger.exception(str(ex))
         return JSONResponse(
@@ -51,3 +52,20 @@ def process_request(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"detail": {"error": str(ex)}},
         )
+
+
+def _format_response(
+    data: BaseModel | list[BaseModel],
+) -> dict[str, Any] | list[dict[str, Any]]:
+    """
+    Formats the response data to be returned to the client.
+
+    Args:
+        data (BaseModel | list[BaseModel]): The data to format.
+
+    Returns:
+        dict: The formatted response data.
+    """
+    if isinstance(data, list):
+        return [item.model_dump(mode="json") for item in data]
+    return data.model_dump(mode="json") if isinstance(data, BaseModel) else data
