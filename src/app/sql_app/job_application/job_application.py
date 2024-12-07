@@ -41,6 +41,7 @@ class JobApplication(Base):
         matches (list[Match]): The matches associated with the job application.
         city (City): The city associated with the job application.
     """
+
     __tablename__ = "job_application"
 
     id: Mapped[uuid.UUID] = mapped_column(
