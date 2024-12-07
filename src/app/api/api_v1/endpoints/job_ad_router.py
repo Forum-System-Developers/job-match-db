@@ -18,7 +18,7 @@ router = APIRouter()
     description="Retrieve all job advertisements.",
 )
 def get_all_job_ads(
-    search_params: JobAdSearchParams,
+    search_params: JobAdSearchParams = Depends(),
     filter_params: FilterParams = Depends(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
