@@ -1,12 +1,16 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Form, Query, status
+from fastapi import APIRouter, Depends, File, Form, Query, UploadFile, status
 from fastapi.responses import JSONResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
-from app.schemas.common import FilterParams
+from app.schemas.common import FilterParams, SearchParams
 from app.schemas.job_application import JobSearchStatus
-from app.schemas.professional import PrivateMatches, ProfessionalCreate
+from app.schemas.professional import (
+    PrivateMatches,
+    ProfessionalCreate,
+    ProfessionalUpdate,
+)
 from app.services import professional_service
 from app.sql_app.database import get_db
 from app.utils.processors import process_request
@@ -20,10 +24,13 @@ router = APIRouter()
 )
 def get_all_professionals(
     filter_params: FilterParams = Depends(),
+    search_params: SearchParams = Depends(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_all_professionals():
-        return professional_service.get_all(filter_params=filter_params, db=db)
+        return professional_service.get_all(
+            filter_params=filter_params, search_params=search_params, db=db
+        )
 
     return process_request(
         get_entities_fn=_get_all_professionals,
@@ -72,11 +79,11 @@ def get_professional_by_username(
     description="Create a new professional.",
 )
 def create_professional(
-    professional: ProfessionalCreate,
+    professional_data: ProfessionalCreate,
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _create_professional():
-        return professional_service.create(professional=professional, db=db)
+        return professional_service.create(professional_data=professional_data, db=db)
 
     return process_request(
         get_entities_fn=_create_professional,
@@ -91,7 +98,7 @@ def create_professional(
 )
 def update_professional(
     professional_id: UUID,
-    professional_data: ProfessionalCreate,
+    professional_data: ProfessionalUpdate,
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _update_professional():
@@ -123,10 +130,13 @@ def get_professional_photo(
 )
 def upload_professional_photo(
     professional_id: UUID,
+    photo: UploadFile = File(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _upload_professional_photo():
-        return professional_service.upload_photo(professional_id=professional_id, db=db)
+        return professional_service.upload_photo(
+            professional_id=professional_id, photo=photo, db=db
+        )
 
     return process_request(
         get_entities_fn=_upload_professional_photo,
@@ -152,10 +162,13 @@ def get_professional_cv(
 )
 def upload_professional_cv(
     professional_id: UUID,
+    cv: UploadFile = File(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _upload_professional_cv():
-        return professional_service.upload_cv(professional_id=professional_id, db=db)
+        return professional_service.upload_cv(
+            professional_id=professional_id, cv=cv, db=db
+        )
 
     return process_request(
         get_entities_fn=_upload_professional_cv,
