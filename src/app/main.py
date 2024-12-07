@@ -54,4 +54,4 @@ app = _create_app()
 _setup_cors(app)
 _setup_logger()
 
-# initialize_database()
+initialize_database()

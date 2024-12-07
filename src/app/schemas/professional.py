@@ -34,17 +34,6 @@ class ProfessionalCreate(ProfessionalBase):
     password_hash: str
     email: EmailStr
 
-    @field_validator("password")
-    def _validate_password(cls, value: str) -> str:
-        if not re.match(
-            r"^(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|;:'\",.<>/?]).{8,}$",
-            value,
-        ):
-            raise ValueError(
-                "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
-            )
-        return value
-
     class Config:
         from_attributes = True
 
