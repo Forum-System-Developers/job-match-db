@@ -69,7 +69,7 @@ class Professional(Base):
         server_default=expression.literal(ProfessionalStatus.ACTIVE.name),
     )
     active_application_count: Mapped[int] = mapped_column(
-        Integer, nullable=False, default=0
+        Integer, nullable=False, server_default=expression.text("0")
     )
     has_private_matches: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=False
