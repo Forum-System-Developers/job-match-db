@@ -369,9 +369,7 @@ def get_applications(
     )
 
     return [
-        JobApplicationResponse.create(
-            professional=professional, job_application=application, db=db
-        )
+        JobApplicationResponse.create(job_application=application)
         for application in applications
     ]
 
@@ -388,10 +386,9 @@ def get_skills(professional_id: UUID, db: Session) -> list[SkillResponse]:
         list[SkillResponse]: A list of SkillResponse objects representing the skills.
     """
     professional = get_professional_by_id(professional_id=professional_id, db=db)
-    professional_job_applications = professional.job_applications
     skills = {
-        skill.skill
-        for application in professional_job_applications
+        skill
+        for application in professional.job_applications
         for skill in application.skills
     }
 
