@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.exceptions.custom_exceptions import ApplicationError
 from app.sql_app import Company, JobAd, Professional, Skill
+from app.sql_app.job_application.job_application import JobApplication
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,33 @@ def get_job_ad_by_id(job_ad_id: UUID, db: Session) -> JobAd:
         )
 
     return job_ad
+
+
+def get_job_application_by_id(job_application_id: UUID, db: Session) -> JobApplication:
+    """
+    Retrieve a job application by its ID from the database.
+
+    Args:
+        job_application_id (UUID): The unique identifier of the job application.
+        db (Session): The database session used to query the job application.
+
+    Returns:
+        JobApplication: The job application object if found.
+
+    Raises:
+        ApplicationError: If the job application with the given ID is not found.
+    """
+    job_application = (
+        db.query(JobApplication).filter(JobApplication.id == job_application_id).first()
+    )
+    if job_application is None:
+        logger.error(f"Job application with id {job_application_id} not found")
+        raise ApplicationError(
+            detail=f"Job Aplication with id {job_application_id} not found.",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return job_application
 
 
 def get_professional_by_id(professional_id: UUID, db: Session) -> Professional:
@@ -107,6 +135,17 @@ def get_skill_by_id(
         raise ApplicationError(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Skill with id {skill_id} not found",
+        )
+
+    return skill
+
+
+def get_skill_by_name(skill_name: str, db: Session) -> Skill:
+    skill = db.query(Skill).filter(Skill.name == skill_name).first()
+    if skill is None:
+        raise ApplicationError(
+            detail=f"Skill with name {skill_name} not found.",
+            status_code=status.HTTP_404_NOT_FOUND,
         )
 
     return skill

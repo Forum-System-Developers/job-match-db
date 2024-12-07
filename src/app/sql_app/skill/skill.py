@@ -6,9 +6,10 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.sql_app.database import Base
+from app.sql_app.job_application.job_application import JobApplication
 
 if TYPE_CHECKING:
-    from app.sql_app import JobAd, JobApplicationSkill
+    from app.sql_app import JobAd
 
 
 class Skill(Base):
@@ -20,7 +21,7 @@ class Skill(Base):
         category_id (uuid.UUID): Foreign key referencing the category this skill belongs to.
         name (str): Name of the skill.
         job_ads (list[JobAd]): List of job advertisements associated with this skill.
-        job_application_skills (list[JobApplicationSkill]): List of job application skills associated with this skill.
+        job_applications (list[JobApplication]): List of job applications associated with this skill.
     """
 
     __tablename__ = "skill"
@@ -44,9 +45,10 @@ class Skill(Base):
         uselist=True,
         collection_class=list,
     )
-    job_application_skills: Mapped[list["JobApplicationSkill"]] = relationship(
-        "JobApplicationSkill",
-        back_populates="skill",
+    job_applications: Mapped[list["JobApplication"]] = relationship(
+        "JobApplication",
+        secondary="job_application_skill",
+        back_populates="skills",
         uselist=True,
         collection_class=list,
     )

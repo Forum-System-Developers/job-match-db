@@ -11,32 +11,35 @@ from app.sql_app.category_job_application.category_job_application import (
 )
 from app.sql_app.database import Base
 from app.sql_app.job_application.job_application_status import JobStatus
+from app.sql_app.skill.skill import Skill
 
 if TYPE_CHECKING:
-    from app.sql_app import City, JobApplicationSkill, Match, Professional
+    from app.sql_app import City, Match, Professional
 
 
 class JobApplication(Base):
     """
-    Represents a job application entity in the SQL app.
+    Represents a job application in the job matching database.
 
     Attributes:
-        id (UUID): The unique identifier of the Job application.
-        name (str): The name of the Job application.
-        min_salary (float): Lower limit of the salary range the Professional is applying for.
-        max_salary (float): Upper limit of the salary the Professional is applying for.
-        status (JobStatus): The status of the Job application.
-        description (str): The Job application description.
-        professional_id (UUID): Foreign key referencing the Professional associated with this Job application.
-        is_main (bool): Property representing if this is the Professional's main application. This property is nullable.
+        id (uuid.UUID): Unique identifier for the job application.
+        name (str): Name of the job application.
+        min_salary (float | None): Minimum salary for the job application.
+        max_salary (float | None): Maximum salary for the job application.
+        status (JobStatus): Status of the job application.
+        description (str): Description of the job application.
+        professional_id (uuid.UUID): Identifier for the associated professional.
+        is_main (bool): Indicates if this is the main job application.
         created_at (datetime): Timestamp when the job application was created.
         updated_at (datetime): Timestamp when the job application was last updated.
-        category_id (UUID): The identifier of the Company this Job application has been matched with.
+        city_id (uuid.UUID): Identifier for the associated city.
 
     Relationships:
-        professional (Professional): The user who created the job application.
-        category (Category): The category for the Job Ad that was matched with the Job Application.
-        skills (list[Skill]): The skillset indicated on this job application.
+        professional (Professional): The professional associated with the job application.
+        category_job_applications (CategoryJobApplication): The category job applications associated with the job application.
+        skills (list[Skill]): The skills associated with the job application.
+        matches (list[Match]): The matches associated with the job application.
+        city (City): The city associated with the job application.
     """
 
     __tablename__ = "job_application"
@@ -76,9 +79,10 @@ class JobApplication(Base):
     category_job_applications: Mapped["CategoryJobApplication"] = relationship(
         "CategoryJobApplication", back_populates="job_application"
     )
-    skills: Mapped[list["JobApplicationSkill"]] = relationship(
-        "JobApplicationSkill",
-        back_populates="job_application",
+    skills: Mapped[list["Skill"]] = relationship(
+        "Skill",
+        secondary="job_application_skill",
+        back_populates="job_applications",
         uselist=True,
         collection_class=list,
     )

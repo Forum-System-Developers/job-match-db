@@ -75,9 +75,7 @@ def create(
     Raises:
         ApplicationError: If the company or city is not found.
     """
-    company = get_company_by_id(
-        company_id=job_ad_data.company_id, db=db
-    )
+    company = get_company_by_id(company_id=job_ad_data.company_id, db=db)
     job_ad = JobAd(**job_ad_data.model_dump(), status=JobAdStatus.ACTIVE)
 
     company.active_job_count += 1
