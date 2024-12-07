@@ -35,8 +35,8 @@ def get_all(
     Returns:
         list[JobApplicationResponse]: A list of Job Applications that are visible for Companies.
     """
-    job_applications = (
-        db.query(JobApplication, Professional)
+    job_applications_query = (
+        db.query(JobApplication)
         .join(Professional, JobApplication.professional_id == Professional.id)
         .filter(
             JobApplication.status == JobStatus.ACTIVE,
@@ -44,17 +44,21 @@ def get_all(
     )
 
     if search_params.order == "desc":
-        job_applications.order_by(
+        job_applications_query.order_by(
             getattr(JobApplication, search_params.order_by).desc()
         )
     else:
-        job_applications.order_by(getattr(JobApplication, search_params.order_by).asc())
+        job_applications_query.order_by(
+            getattr(JobApplication, search_params.order_by).asc()
+        )
     logger.info(
         f"Order applications based on search params order {search_params.order} and order_by {search_params.order_by}"
     )
 
     job_applications = (
-        job_applications.offset(filter_params.offset).limit(filter_params.limit).all()
+        job_applications_query.offset(filter_params.offset)
+        .limit(filter_params.limit)
+        .all()
     )
 
     logger.info("Limited applications based on offset and limit")
@@ -156,10 +160,10 @@ def update(
         any(value is not None for value in vars(job_application_data).values())
         or new_skills
     ):
-        job_application_data.updated_at = datetime.now()
+        job_application.updated_at = datetime.now()
 
     db.commit()
-    db.refresh(job_application_data)
+    db.refresh(job_application)
 
     logger.info(f"Job Application with id {job_application.id} updated")
 
