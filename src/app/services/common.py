@@ -37,14 +37,17 @@ def get_company_by_id(company_id: UUID, db: Session) -> Company:
 
 def get_job_ad_by_id(job_ad_id: UUID, db: Session) -> JobAd:
     """
-    Retrieve a job advertisement by its unique identifier.
+    Retrieve a job advertisement by its ID from the database.
 
     Args:
         job_ad_id (UUID): The unique identifier of the job advertisement.
         db (Session): The database session used to query the job advertisement.
 
     Returns:
-        JobAd: The job advertisement if found, otherwise None.
+        JobAd: The job advertisement object if found.
+
+    Raises:
+        ApplicationError: If the job advertisement with the given ID is not found.
     """
     job_ad = db.query(JobAd).get(job_ad_id)
     if job_ad is None:

@@ -6,14 +6,11 @@ from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, Numeric, String, fun
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.sql_app.category_job_application.category_job_application import (
-    CategoryJobApplication,
-)
 from app.sql_app.database import Base
 from app.sql_app.job_application.job_application_status import JobStatus
 
 if TYPE_CHECKING:
-    from app.sql_app import City, Match, Professional, Skill
+    from app.sql_app import Category, City, Match, Professional, Skill
 
 
 class JobApplication(Base):
@@ -22,6 +19,7 @@ class JobApplication(Base):
 
     Attributes:
         id (uuid.UUID): Unique identifier for the job application.
+        category_id (uuid.UUID): Identifier for the associated category.
         name (str): Name of the job application.
         min_salary (float | None): Minimum salary for the job application.
         max_salary (float | None): Maximum salary for the job application.
@@ -35,10 +33,10 @@ class JobApplication(Base):
 
     Relationships:
         professional (Professional): The professional associated with the job application.
-        category_job_applications (CategoryJobApplication): The category job applications associated with the job application.
         skills (list[Skill]): The skills associated with the job application.
         matches (list[Match]): The matches associated with the job application.
         city (City): The city associated with the job application.
+        category (Category): The category associated with the job application.
     """
 
     __tablename__ = "job_application"
@@ -49,6 +47,9 @@ class JobApplication(Base):
         primary_key=True,
         unique=True,
         nullable=False,
+    )
+    category_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("category.id"), nullable=False
     )
     name: Mapped[str] = mapped_column(String, nullable=False)
     min_salary: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True)
@@ -75,9 +76,6 @@ class JobApplication(Base):
     professional: Mapped["Professional"] = relationship(
         "Professional", back_populates="job_applications"
     )
-    category_job_applications: Mapped["CategoryJobApplication"] = relationship(
-        "CategoryJobApplication", back_populates="job_application"
-    )
     skills: Mapped[list["Skill"]] = relationship(
         "Skill",
         secondary="job_application_skill",
@@ -89,3 +87,6 @@ class JobApplication(Base):
         "Match", back_populates="job_application", uselist=True, collection_class=list
     )
     city: Mapped["City"] = relationship("City", back_populates="job_applications")
+    category: Mapped["Category"] = relationship(
+        "Category", back_populates="job_applications"
+    )

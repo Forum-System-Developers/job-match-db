@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 
 from app.sql_app import (
     Category,
-    CategoryJobApplication,
     City,
     Company,
     JobAd,
@@ -248,6 +247,7 @@ job_ad_skills = [
 job_applications = [
     {
         "id": uuid4(),
+        "category_id": categories[0]["id"],
         "city_id": cities[0]["id"],
         "professional_id": professionals[0]["id"],
         "name": "Job Application 1",
@@ -260,6 +260,7 @@ job_applications = [
     },
     {
         "id": uuid4(),
+        "category_id": categories[1]["id"],
         "city_id": cities[1]["id"],
         "professional_id": professionals[1]["id"],
         "name": "Job Application 2",
@@ -272,6 +273,7 @@ job_applications = [
     },
     {
         "id": uuid4(),
+        "category_id": categories[2]["id"],
         "city_id": cities[2]["id"],
         "professional_id": professionals[2]["id"],
         "name": "Job Application 3",
@@ -377,6 +379,7 @@ def insert_job_ads(db: Session) -> None:
     db.commit()
 
 
+# TODO: incremenet number of job ads for companies
 def insert_job_ad_skills(db: Session) -> None:
     for job_ad_skill in job_ad_skills:
         job_ad_skill_model = JobAdSkill(**job_ad_skill)
@@ -384,6 +387,7 @@ def insert_job_ad_skills(db: Session) -> None:
     db.commit()
 
 
+# TODO: increment number of job applications for professionals
 def insert_job_applications(db: Session) -> None:
     for job_application in job_applications:
         job_application_model = JobApplication(**job_application)
@@ -412,15 +416,6 @@ def insert_job_application_skills(db: Session) -> None:
     db.commit()
 
 
-def insert_category_job_applications(db: Session) -> None:
-    for category_job_application in category_job_applications:
-        category_job_application_model = CategoryJobApplication(
-            **category_job_application
-        )
-        db.add(category_job_application_model)
-    db.commit()
-
-
 def insert_matches(db: Session) -> None:
     for match in matches:
         match_model = Match(**match)
@@ -445,5 +440,4 @@ def insert_data(db: Session) -> None:
     insert_job_ad_skills(db)
     insert_job_applications(db)
     insert_job_application_skills(db)
-    insert_category_job_applications(db)
     insert_matches(db)

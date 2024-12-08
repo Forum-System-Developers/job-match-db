@@ -19,8 +19,8 @@ router = APIRouter()
     description="Retrieve all Job Applications.",
 )
 def get_all(
+    search_params: SearchParams,
     filter_params: FilterParams = Depends(),
-    search_params: SearchParams = Depends(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_all():
@@ -58,13 +58,11 @@ def get_by_id(
 
 
 @router.post(
-    "/{professional_id}",
+    "/",
     description="Create a new Job Application.",
 )
 def create(
-    job_application_create: JobApplicationCreate = Body(
-        description="Job Application creation form"
-    ),
+    job_application_create: JobApplicationCreate,
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _create():
