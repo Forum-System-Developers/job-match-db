@@ -81,6 +81,58 @@ def get_by_username(username: str, db: Session) -> CompanyResponse:
     return CompanyResponse.create(company)
 
 
+def get_by_email(email: str, db: Session) -> CompanyResponse:
+    """
+    Retrieve a company by its email.
+
+    Args:
+        email (str): The email of the company to retrieve.
+        db (Session): The database session to use for the query.
+
+    Returns:
+        User: A User object representing the retrieved company.
+
+    Raises:
+        ApplicationError: If no company with the given email is found.
+    """
+    company = db.query(Company).filter(Company.email == email).first()
+    if company is None:
+        logger.error(f"Company with email {email} not found")
+        raise ApplicationError(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Company with email {email} not found",
+        )
+    logger.info(f"Retrieved company with email {email}")
+
+    return CompanyResponse.create(company)
+
+
+def get_by_phone_number(phone_number: str, db: Session) -> CompanyResponse:
+    """
+    Retrieve a company by its phone number.
+
+    Args:
+        phone_number (str): The phone number of the company to retrieve.
+        db (Session): The database session to use for the query.
+
+    Returns:
+        User: A User object representing the retrieved company.
+
+    Raises:
+        ApplicationError: If no company with the given phone number is found.
+    """
+    company = db.query(Company).filter(Company.phone_number == phone_number).first()
+    if company is None:
+        logger.error(f"Company with phone number {phone_number} not found")
+        raise ApplicationError(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Company with phone number {phone_number} not found",
+        )
+    logger.info(f"Retrieved company with phone number {phone_number}")
+
+    return CompanyResponse.create(company)
+
+
 def create(company_data: CompanyCreate, db: Session) -> CompanyResponse:
     """
     Create a new company record in the database.
@@ -177,3 +229,24 @@ def download_logo(company_id: UUID, db: Session) -> StreamingResponse:
     logger.info(f"Downloaded logo of company with id {company_id}")
 
     return StreamingResponse(io.BytesIO(logo), media_type="image/png")
+
+
+def delete_logo(company_id: UUID, db: Session) -> MessageResponse:
+    """
+    Deletes the logo of a company.
+
+    Args:
+        company_id (UUID): The unique identifier of the company.
+        db (Session): The database session.
+
+    Returns:
+        MessageResponse: A response message indicating the result of the deletion operation.
+    """
+    company = get_company_by_id(company_id=company_id, db=db)
+    company.logo = None
+    company.updated_at = datetime.now()
+
+    db.commit()
+    logger.info(f"Deleted logo of company with id {company_id}")
+
+    return MessageResponse(message="Logo deleted successfully")

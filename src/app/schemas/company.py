@@ -59,8 +59,7 @@ class CompanyUpdate(BaseModel):
     description: str | None = None
     email: EmailStr | None = None
     phone_number: str | None = None
-    website_url: HttpUrl | None = None
-    youtube_video_url: HttpUrl | None = None
+    website_url: str | None = None
     youtube_video_id: str | None = None
 
     @model_validator(mode="before")
