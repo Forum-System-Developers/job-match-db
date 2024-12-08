@@ -35,7 +35,7 @@ def get_city_by_id(city_id: UUID, db: Session = Depends(get_db)) -> JSONResponse
     )
 
 
-@router.get("/{city_name}/name", description="Retrieve a city by its name.")
+@router.get("/by-name/{city_name}", description="Retrieve a city by its name.")
 def get_city_by_name(city_name: str, db: Session = Depends(get_db)) -> JSONResponse:
     def _get_city_by_name():
         return city_service.get_by_name(city_name=city_name, db=db)

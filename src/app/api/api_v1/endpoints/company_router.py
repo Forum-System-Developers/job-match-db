@@ -49,17 +49,53 @@ def get_company_by_username(
 
 
 @router.get(
-    "/{id}",
+    "/by-email/{email}",
+    description="Retrieve company by email.",
+)
+def get_company_by_email(
+    email: str,
+    db: Session = Depends(get_db),
+) -> JSONResponse:
+    def _get_company_by_email():
+        return company_service.get_by_email(email=email, db=db)
+
+    return process_request(
+        get_entities_fn=_get_company_by_email,
+        status_code=status.HTTP_200_OK,
+        not_found_err_msg=f"Company with email {email} not found",
+    )
+
+
+@router.get(
+    "/by-phone-number/{phone_number}",
+    description="Retrieve company by phone number.",
+)
+def get_company_by_phone(
+    phone_number: str,
+    db: Session = Depends(get_db),
+) -> JSONResponse:
+    def _get_company_by_phone():
+        return company_service.get_by_phone_number(phone_number=phone_number, db=db)
+
+    return process_request(
+        get_entities_fn=_get_company_by_phone,
+        status_code=status.HTTP_200_OK,
+        not_found_err_msg=f"Company with phone number {phone_number} not found",
+    )
+
+
+@router.get(
+    "/{company_id}",
     description="Retrieve a company by its unique identifier.",
 )
-def get_company_by_id(id: UUID, db: Session = Depends(get_db)) -> JSONResponse:
+def get_company_by_id(company_id: UUID, db: Session = Depends(get_db)) -> JSONResponse:
     def _get_company_by_id():
-        return company_service.get_by_id(id=id, db=db)
+        return company_service.get_by_id(company_id=company_id, db=db)
 
     return process_request(
         get_entities_fn=_get_company_by_id,
         status_code=status.HTTP_200_OK,
-        not_found_err_msg=f"Company with id {id} not found",
+        not_found_err_msg=f"Company with id {company_id} not found",
     )
 
 
