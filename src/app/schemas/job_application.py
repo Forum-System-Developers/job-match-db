@@ -67,6 +67,8 @@ class JobAplicationBase(BaseModel):
     description: str = Field(
         examples=["A seasoned web developer with expertise in FastAPI"]
     )
+    category_id: UUID = Field(description="Category ID")
+    category_title: str = Field(description="Category Title")
 
     @model_validator(mode="before")
     def validate_salary_range(cls, values):
@@ -137,6 +139,8 @@ class JobApplicationResponse(JobAplicationBase):
             id=job_application.id,
             name=job_application.name,
             professional_id=professional.id,
+            category_id=job_application.category_id,
+            category_title=job_application.category.title,
             photo=professional.photo,
             first_name=professional.first_name,
             last_name=professional.last_name,
