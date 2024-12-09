@@ -6,6 +6,7 @@ from app.api.api_v1.endpoints import (
     company_router,
     job_ad_router,
     job_application_router,
+    match_router,
     professional_router,
     skill_router,
 )
@@ -37,4 +38,9 @@ api_router.include_router(job_ad_router.router, prefix="/job-ads", tags=["Job Ad
 
 api_router.include_router(
     job_application_router.router, prefix="/job-applications", tags=["Job Applications"]
+)
+
+
+api_router.include_router(
+    match_router.router, prefix="/match-requests", tags=["Match Requests"]
 )
