@@ -427,25 +427,25 @@ def get_application(
 
 def get_skills(professional_id: UUID, db: Session) -> list[SkillResponse]:
     """
-    Retrieve the skills associated with a professional's job applications.
+    Retrieve all skills associated with a professional.
 
     Args:
         professional_id (UUID): The unique identifier of the professional.
-        db (Session): The database session used to query the data.
+        db (Session): The database session to use for the query.
 
     Returns:
-        list[SkillResponse]: A list of SkillResponse objects representing the skills.
+        list[SkillResponse]: A list of SkillResponse objects representing the skills of the professional.
     """
     professional = get_professional_by_id(professional_id=professional_id, db=db)
     skills = {
-        skill
-        for application in professional.job_applications
-        for skill in application.skills
+        (skill.id, skill)
+        for job_application in professional.job_applications
+        for skill in job_application.skills
     }
 
     return [
         SkillResponse(id=skill.id, name=skill.name, category_id=skill.category_id)
-        for skill in skills
+        for (skill_id, skill) in skills
     ]
 
 
