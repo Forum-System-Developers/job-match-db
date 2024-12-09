@@ -46,6 +46,14 @@ class MatchResponse(BaseModel):
         )
 
 
+class MatchRequestCreate(MatchResponse):
+    pass
+
+
+class MatchRequestUpdate(BaseModel):
+    status: MatchStatus
+
+
 class MatchRequestAd(MatchResponse):
     """
     MatchRequest schema for job matching requests.
