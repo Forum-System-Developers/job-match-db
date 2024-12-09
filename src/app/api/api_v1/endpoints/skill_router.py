@@ -30,6 +30,24 @@ def get_all_skills_for_category(
     )
 
 
+@router.get(
+    "/{skill_id}",
+    description="Retrieve a skill by its unique identifier.",
+)
+def get_skill_by_id(
+    skill_id: UUID,
+    db: Session = Depends(get_db),
+) -> JSONResponse:
+    def _get_skill_by_id():
+        return skill_service.get_by_id(skill_id=skill_id, db=db)
+
+    return process_request(
+        get_entities_fn=_get_skill_by_id,
+        status_code=status.HTTP_200_OK,
+        not_found_err_msg=f"Skill with id {skill_id} not found",
+    )
+
+
 @router.post(
     "/",
     description="Create a new skill.",
