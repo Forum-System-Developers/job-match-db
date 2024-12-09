@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.exceptions.custom_exceptions import ApplicationError
 from app.sql_app import Company, JobAd, Professional, Skill
 from app.sql_app.job_application.job_application import JobApplication
+from app.sql_app.match.match import Match
 
 logger = logging.getLogger(__name__)
 
@@ -152,3 +153,41 @@ def get_skill_by_name(skill_name: str, db: Session) -> Skill:
         )
 
     return skill
+
+
+def get_match_by_id(
+    job_ad_id: UUID,
+    job_application_id: UUID,
+    db: Session,
+) -> Match:
+    """
+    Retrieve a match by job advertisement ID and job application ID.
+
+    Args:
+        job_ad_id (UUID): The unique identifier of the job advertisement.
+        job_application_id (UUID): The unique identifier of the job application.
+        db (Session): The database session to use for the query.
+
+    Returns:
+        Match: The match object if found.
+
+    Raises:
+        ApplicationError: If no match is found, raises an error with a 404 status code.
+    """
+    match = (
+        db.query(Match)
+        .filter(
+            Match.job_ad_id == job_ad_id, Match.job_application_id == job_application_id
+        )
+        .first()
+    )
+    if match is None:
+        logger.error(
+            f"Match request not found for JobAd id {job_ad_id} and JobApplication id {job_application_id}"
+        )
+        raise ApplicationError(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Match request not found",
+        )
+
+    return match
