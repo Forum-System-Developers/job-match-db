@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from app.exceptions.custom_exceptions import ApplicationError
 from app.schemas.common import FilterParams, MessageResponse
 from app.schemas.company import CompanyCreate, CompanyResponse, CompanyUpdate
+from app.schemas.user import User
 from app.services.common import get_company_by_id
 from app.sql_app.company.company import Company
 
@@ -55,7 +56,7 @@ def get_by_id(company_id: UUID, db: Session) -> CompanyResponse:
     return CompanyResponse.create(company)
 
 
-def get_by_username(username: str, db: Session) -> CompanyResponse:
+def get_by_username(username: str, db: Session) -> User:
     """
     Retrieve a company by its username.
 
@@ -78,7 +79,9 @@ def get_by_username(username: str, db: Session) -> CompanyResponse:
         )
     logger.info(f"Retrieved company with username {username}")
 
-    return CompanyResponse.create(company)
+    return User(
+        id=company.id, username=company.username, password=company.password_hash
+    )
 
 
 def get_by_email(email: str, db: Session) -> CompanyResponse:

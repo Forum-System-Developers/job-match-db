@@ -19,6 +19,7 @@ from app.schemas.professional import (
     ProfessionalUpdate,
 )
 from app.schemas.skill import SkillResponse
+from app.schemas.user import User
 from app.services import match_service
 from app.services.common import get_professional_by_id
 from app.sql_app.job_ad.job_ad import JobAd
@@ -139,10 +140,19 @@ def update(
     if any(value is not None for value in vars(professional_data).values()):
         professional.updated_at = datetime.now()
 
+    matched_ads = (
+        _get_matches(professional_id=professional_id, db=db)
+        if not professional.has_private_matches
+        else None
+    )
+
     db.commit()
     db.refresh(professional)
 
-    return ProfessionalResponse.create(professional=professional)
+    return ProfessionalResponse.create(
+        professional=professional,
+        matched_ads=matched_ads,
+    )
 
 
 def upload_photo(
@@ -237,7 +247,7 @@ def download_cv(professional_id: UUID, db: Session) -> StreamingResponse:
     if cv is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"CV for Job Application with id {professional_id} not found",
+            detail=f"CV for professional with id {professional_id} not found",
         )
 
     return _generate_cv_response(professional=professional, cv=cv)
@@ -261,7 +271,7 @@ def delete_cv(professional_id: UUID, db: Session) -> MessageResponse:
     if professional.cv is None:
         raise ApplicationError(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"CV for Job Application with id {professional_id} not found",
+            detail=f"CV for professional with id {professional_id} not found",
         )
     professional.cv = None
     professional.updated_at = datetime.now()
@@ -299,7 +309,7 @@ def set_matches_status(
     )
 
 
-def get_by_username(username: str, db: Session) -> ProfessionalResponse:
+def get_by_username(username: str, db: Session) -> User:
     """
     Retrieve a professional by their username.
 
@@ -308,7 +318,7 @@ def get_by_username(username: str, db: Session) -> ProfessionalResponse:
         db (Session): The database session to use for the query.
 
     Returns:
-        ProfessionalResponse: The response object containing the professional's details.
+        User: A User object representing the retrieved professional
 
     Raises:
         ApplicationError: If no professional with the given username is found.
@@ -322,7 +332,11 @@ def get_by_username(username: str, db: Session) -> ProfessionalResponse:
             status_code=status.HTTP_404_NOT_FOUND,
         )
 
-    return ProfessionalResponse.create(professional)
+    return User(
+        id=professional.id,
+        username=professional.username,
+        password=professional.password_hash,
+    )
 
 
 def get_applications(
@@ -373,6 +387,42 @@ def get_applications(
         JobApplicationResponse.create(job_application=application)
         for application in applications
     ]
+
+
+def get_application(
+    professional_id: UUID,
+    job_application_id: UUID,
+    db: Session,
+) -> JobApplicationResponse:
+    """
+    Retrieve a job application for a given professional by its ID.
+
+    Args:
+        professional_id (UUID): The unique identifier of the professional.
+        job_application_id (UUID): The unique identifier of the job application.
+        db (Session): The database session to use for querying.
+
+    Returns:
+        JobApplicationResponse: The response object containing the job application details.
+
+    Raises:
+        ApplicationError: If the job application is not found.
+    """
+    job_application = (
+        db.query(JobApplication)
+        .filter(
+            JobApplication.professional_id == professional_id,
+            JobApplication.id == job_application_id,
+        )
+        .first()
+    )
+    if job_application is None:
+        raise ApplicationError(
+            detail=f"Job Application with id {job_application_id} not found",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return JobApplicationResponse.create(job_application)
 
 
 def get_skills(professional_id: UUID, db: Session) -> list[SkillResponse]:

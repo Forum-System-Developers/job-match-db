@@ -21,7 +21,7 @@ class Company(Base):
         id (uuid.UUID): Unique identifier for the company.
         city_id (uuid.UUID): Foreign key referencing the city where the company is located.
         username (str): Unique username for the company.
-        password (str): Password for the company.
+        password_hash (str): Hashed password for the company.
         name (str): Name of the company.
         description (str): Description of the company.
         address_line (str): Address of the company.
