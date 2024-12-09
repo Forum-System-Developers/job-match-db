@@ -217,7 +217,7 @@ def toggle_private_matches(
 
 
 @router.get(
-    "/{professional_id}/applications",
+    "/{professional_id}/job-applications",
     description="Retrieve all applications of a professional.",
 )
 def get_professional_applications(

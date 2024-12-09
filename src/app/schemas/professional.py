@@ -17,10 +17,10 @@ class ProfessionalBase(BaseModel):
     first_name: str
     last_name: str
     description: str
-    city_id: UUID
+    city: str
 
 
-class ProfessionalCreate(ProfessionalBase):
+class ProfessionalCreate(BaseModel):
     """
     ProfessionalCreate schema for creating a new professional user.
 
@@ -30,6 +30,10 @@ class ProfessionalCreate(ProfessionalBase):
         email (EmailStr): The email address of the professional user.
     """
 
+    first_name: str
+    last_name: str
+    description: str
+    city_id: UUID
     username: Username  # type: ignore
     password_hash: str
     email: EmailStr
@@ -44,7 +48,8 @@ class ProfessionalUpdate(BaseModel):
     description: str | None = Field(
         examples=["A seasoned web developer with expertise in FastAPI"], default=None
     )
-    city: str | None = Field(examples=["Sofia"], default=None)
+    city_id: UUID | None = Field(description="City ID", default=None)
+    status: ProfessionalStatus | None = Field(examples=["active"], default=None)
 
 
 class ProfessionalResponse(ProfessionalBase):
@@ -79,7 +84,7 @@ class ProfessionalResponse(ProfessionalBase):
             first_name=professional.first_name,
             last_name=professional.last_name,
             email=professional.email,
-            city_id=professional.city_id,
+            city=professional.city.name,
             description=professional.description,
             photo=professional.photo,
             status=professional.status,

@@ -19,7 +19,7 @@ router = APIRouter()
     description="Retrieve all Job Applications.",
 )
 def get_all(
-    search_params: SearchParams,
+    search_params: SearchParams = Depends(),
     filter_params: FilterParams = Depends(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:
@@ -79,7 +79,7 @@ def create(
 
 
 @router.put(
-    "/{job_application_id}/",
+    "/{job_application_id}",
     description="Update a Job Application.",
 )
 def update(
