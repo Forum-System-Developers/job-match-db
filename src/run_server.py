@@ -23,7 +23,7 @@ if __name__ == "__main__":
         "-p",
         "--port",
         type=int,
-        default=8000,
+        default=7999,
         help="port to listen on (default: 8000)",
     )
     config = parser.parse_args()

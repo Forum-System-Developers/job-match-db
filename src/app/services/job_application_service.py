@@ -44,7 +44,7 @@ def get_all(
         db.query(JobApplication)
         .join(Professional, JobApplication.professional_id == Professional.id)
         .filter(
-            JobApplication.status == search_params.job_application_status,
+            JobApplication.status == JobStatus.ACTIVE,
         )
     )
 
@@ -202,8 +202,5 @@ def _add_skills(
     """
     for skill in skills:
         skill_model = get_skill_by_name(skill_name=skill.name, db=db)
-        job_application_skill = JobApplicationSkill(
-            job_application_id=job_application, skill_id=skill_model.id, db=db
-        )
-        db.add(job_application_skill)
+        job_application.skills.append(skill_model)
         logger.info(f"Added skill {skill.name} to job application {job_application.id}")

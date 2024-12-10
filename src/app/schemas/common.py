@@ -105,9 +105,9 @@ class SearchJobApplication(SearchParams):
         ```
     """
 
-    job_application_status: JobStatus = Field(
+    job_application_status: JobAdStatus = Field(
         description="ACTIVE: Represents an active job application. ARCHIVED: Represents a matched/archived job application",
-        default=JobStatus.ACTIVE,
+        default=JobAdStatus.ACTIVE,
     )
     skills: list[str] = Field(
         examples=[["Python", "Linux", "React"]],

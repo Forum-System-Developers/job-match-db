@@ -201,7 +201,7 @@ def delete_professional_cv(
 )
 def toggle_private_matches(
     professional_id: UUID,
-    private_matches: PrivateMatches = Form(),
+    private_matches: PrivateMatches,
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _toggle_private_matches():
