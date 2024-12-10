@@ -57,7 +57,7 @@ def get_professional_by_id(
 
 
 @router.get(
-    "/usernames/{username}",
+    "/by-username/{username}",
     description="Retrieve professional by username.",
 )
 def get_professional_by_username(

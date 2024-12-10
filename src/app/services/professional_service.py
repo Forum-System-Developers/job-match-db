@@ -68,7 +68,10 @@ def get_all(
     )
 
     return [
-        ProfessionalResponse.create(professional=professional)
+        ProfessionalResponse.create(
+            professional=professional,
+            skills=get_skills(professional_id=professional.id, db=db),
+        )
         for professional in professionals.all()
     ]
 
@@ -91,9 +94,16 @@ def get_by_id(professional_id: UUID, db: Session) -> ProfessionalResponse:
         if not professional.has_private_matches
         else None
     )
+    skills = get_skills(professional_id=professional_id, db=db)
+    sent_match_requests = get_sent_match_requests(
+        professional_id=professional_id, db=db
+    )
 
     return ProfessionalResponse.create(
-        professional=professional, matched_ads=matched_ads
+        professional=professional,
+        matched_ads=matched_ads,
+        skills=skills,
+        sent_match_requests=sent_match_requests,
     )
 
 
@@ -145,6 +155,10 @@ def update(
         if not professional.has_private_matches
         else None
     )
+    skills = get_skills(professional_id=professional_id, db=db)
+    sent_match_requests = get_sent_match_requests(
+        professional_id=professional_id, db=db
+    )
 
     db.commit()
     db.refresh(professional)
@@ -152,6 +166,8 @@ def update(
     return ProfessionalResponse.create(
         professional=professional,
         matched_ads=matched_ads,
+        skills=skills,
+        sent_match_requests=sent_match_requests,
     )
 
 
@@ -463,6 +479,30 @@ def get_match_requests(professional_id: UUID, db: Session) -> list[MatchRequestA
     professional = get_professional_by_id(professional_id=professional_id, db=db)
 
     match_requests = match_service.get_match_requests_for_professional(
+        professional_id=professional.id, db=db
+    )
+
+    return match_requests
+
+
+def get_sent_match_requests(
+    professional_id: UUID,
+    db: Session,
+) -> list[MatchRequestAd]:
+    """
+    Fetches Match Requests sent by the given Professional.
+
+    Args:
+        professional_id (UUID): The identifier of the Professional.
+        db (Session): Database dependency.
+
+    Returns:
+        list[MatchRequest]: List of Pydantic models containing basic information about the match request.
+    """
+
+    professional = get_professional_by_id(professional_id=professional_id, db=db)
+
+    match_requests = match_service.get_sent_match_requests_for_professional(
         professional_id=professional.id, db=db
     )
 

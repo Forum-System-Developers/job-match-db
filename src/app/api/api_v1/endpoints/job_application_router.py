@@ -5,7 +5,7 @@ from fastapi import status as status_code
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from app.schemas.common import FilterParams, SearchParams
+from app.schemas.common import FilterParams, SearchJobApplication, SearchParams
 from app.schemas.job_application import JobApplicationCreate, JobApplicationUpdate
 from app.services import job_application_service
 from app.sql_app.database import get_db
@@ -19,7 +19,7 @@ router = APIRouter()
     description="Retrieve all Job Applications.",
 )
 def get_all(
-    search_params: SearchParams = Depends(),
+    search_params: SearchJobApplication = Depends(),
     filter_params: FilterParams = Depends(),
     db: Session = Depends(get_db),
 ) -> JSONResponse:

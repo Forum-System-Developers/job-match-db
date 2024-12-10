@@ -31,7 +31,7 @@ def get_all_companies(
 
 
 @router.get(
-    "/usernames/{username}",
+    "/by-username/{username}",
     description="Retrieve company by username.",
 )
 def get_company_by_username(

@@ -20,5 +20,5 @@ class CategoryResponse(BaseModel):
             title=category.title,
             description=category.description,
             job_ads_count=len(category.job_ads),
-            job_applications_count=len(category.category_job_applications),
+            job_applications_count=len(category.job_applications),
         )
