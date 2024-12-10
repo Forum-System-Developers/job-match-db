@@ -71,6 +71,7 @@ class JobAdResponse(JobAdPreview):
 class JobAdCreate(BaseJobAd):
     company_id: UUID
     location_id: UUID
+    skills: list[str] = []
 
 
 class JobAdUpdate(BaseModel):

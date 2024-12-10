@@ -10,7 +10,12 @@ from app.exceptions.custom_exceptions import ApplicationError
 from app.schemas.common import FilterParams, JobAdSearchParams, MessageResponse
 from app.schemas.job_ad import JobAdCreate, JobAdResponse, JobAdUpdate
 from app.services import company_service
-from app.services.common import get_company_by_id, get_job_ad_by_id, get_skill_by_id
+from app.services.common import (
+    get_company_by_id,
+    get_job_ad_by_id,
+    get_skill_by_id,
+    get_skill_by_name,
+)
 from app.sql_app import JobAd, JobAdSkill, Skill
 from app.sql_app.job_ad.job_ad_status import JobAdStatus
 
@@ -76,7 +81,11 @@ def create(
         ApplicationError: If the company or city is not found.
     """
     company = get_company_by_id(company_id=job_ad_data.company_id, db=db)
-    job_ad = JobAd(**job_ad_data.model_dump(), status=JobAdStatus.ACTIVE)
+    job_ad = JobAd(
+        **job_ad_data.model_dump(exclude={"skills"}), status=JobAdStatus.ACTIVE
+    )
+
+    _add_skills(job_ad=job_ad, skills=job_ad_data.skills, db=db)
 
     company.active_job_count += 1
 
@@ -163,6 +172,25 @@ def add_skill_requirement(
     logger.info(f"Added skill with id {skill_id} to job ad with id {job_ad_id}")
 
     return MessageResponse(message="Skill added to job ad")
+
+
+def _add_skills(
+    job_ad: JobAd,
+    skills: list[str],
+    db: Session,
+) -> None:
+    """
+    Adds a list of skills to a job advertisement.
+
+    Args:
+        job_ad (JobAd): The job application to which the skills will be added.
+        skills (list[str]): A list of skill names to be added to the job application.
+        db (Session): The database session used for querying and adding skills.
+    """
+    for skill in skills:
+        skill_model = get_skill_by_name(skill_name=skill, db=db)
+        job_ad.skills.append(skill_model)
+        logger.info(f"Added skill {skill} to job ad with id {job_ad.id}")
 
 
 def _search_job_ads(search_params: JobAdSearchParams, db: Session) -> Query[JobAd]:
