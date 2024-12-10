@@ -4,7 +4,7 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.schemas.common import FilterParams, SearchParams
+from app.schemas.common import FilterParams, SearchJobApplication, SearchParams
 from app.schemas.job_application import (
     JobApplicationCreate,
     JobApplicationResponse,
@@ -20,13 +20,14 @@ from app.sql_app.job_application.job_application import JobApplication
 from app.sql_app.job_application.job_application_status import JobStatus
 from app.sql_app.job_application_skill.job_application_skill import JobApplicationSkill
 from app.sql_app.professional.professional import Professional
+from app.sql_app.skill.skill import Skill
 
 logger = logging.getLogger(__name__)
 
 
 def get_all(
     filter_params: FilterParams,
-    search_params: SearchParams,
+    search_params: SearchJobApplication,
     db: Session,
 ) -> list[JobApplicationResponse]:
     """
@@ -34,7 +35,7 @@ def get_all(
 
     Args:
         filer_params (FilterParams): Pydantic schema for filtering params.
-        search_params (SearchParams): Pydantic for search parameteres.
+        search_params (SearchJobApplication): Pydantic schema for search params.
         db (Session): The database session.
     Returns:
         list[JobApplicationResponse]: A list of Job Applications that are visible for Companies.
@@ -43,9 +44,17 @@ def get_all(
         db.query(JobApplication)
         .join(Professional, JobApplication.professional_id == Professional.id)
         .filter(
-            JobApplication.status == JobStatus.ACTIVE,
+            JobApplication.status == search_params.job_application_status,
         )
     )
+
+    if search_params.skills:
+        job_applications_query = (
+            job_applications_query.join(JobApplicationSkill)
+            .join(Skill)
+            .filter(Skill.name.in_(search_params.skills))
+        )
+        logger.info("Filtered job applications by skills.")
 
     if search_params.order == "desc":
         job_applications_query.order_by(
@@ -56,7 +65,7 @@ def get_all(
             getattr(JobApplication, search_params.order_by).asc()
         )
     logger.info(
-        f"Order applications based on search params order {search_params.order} and order_by {search_params.order_by}"
+        f"Order job applications based on search params order {search_params.order} and order_by {search_params.order_by}"
     )
 
     job_applications = (
@@ -65,7 +74,7 @@ def get_all(
         .all()
     )
 
-    logger.info("Limited applications based on offset and limit")
+    logger.info("Limited job applications based on offset and limit")
 
     return [
         JobApplicationResponse.create(job_application)
