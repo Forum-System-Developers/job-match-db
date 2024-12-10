@@ -65,7 +65,9 @@ class Company(Base):
     active_job_count: Mapped[int] = mapped_column(
         Integer, nullable=False, server_default=expression.text("0")
     )
-    successfull_matches_count: Mapped[int] = mapped_column(Integer, nullable=True)
+    successfull_matches_count: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=expression.text("0")
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
