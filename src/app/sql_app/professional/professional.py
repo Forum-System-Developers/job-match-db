@@ -20,6 +20,7 @@ class Professional(Base):
 
     Attributes:
         id (UUID): Unique identifier for the professional.
+        sub (UUID, optional): Unique identifier for the professional in the authentication system.
         city_id (UUID): Foreign key referencing the city where the professional is located.
         username (str): Unique username for the professional.
         password (str): Password for the professional.
@@ -45,6 +46,7 @@ class Professional(Base):
         unique=True,
         nullable=False,
     )
+    sub: Mapped[str] = mapped_column(String, unique=True, nullable=True)
     city_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("city.id"), nullable=False
     )
