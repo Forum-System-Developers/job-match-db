@@ -409,22 +409,199 @@ professionals: list[dict[str, Any]] = [
 ]
 
 skills = [
+    # Development
     {
         "id": uuid4(),
-        "name": "Skill 1",
+        "name": "Python Programming",
         "category_id": categories[0]["id"],
     },
     {
         "id": uuid4(),
-        "name": "Skill 2",
+        "name": "Web Development",
+        "category_id": categories[0]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Database Management",
+        "category_id": categories[0]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "JavaScript",
+        "category_id": categories[0]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Version Control (Git)",
+        "category_id": categories[0]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "API Development",
+        "category_id": categories[0]["id"],
+    },
+    
+    # Telemarketing
+    {
+        "id": uuid4(),
+        "name": "Cold Calling",
         "category_id": categories[1]["id"],
     },
     {
         "id": uuid4(),
-        "name": "Skill 3",
+        "name": "Lead Generation",
+        "category_id": categories[1]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Customer Relationship Management",
+        "category_id": categories[1]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Script Writing",
+        "category_id": categories[1]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Negotiation Skills",
+        "category_id": categories[1]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Market Research",
+        "category_id": categories[1]["id"],
+    },
+    
+    # Marketing
+    {
+        "id": uuid4(),
+        "name": "Digital Marketing",
         "category_id": categories[2]["id"],
     },
+    {
+        "id": uuid4(),
+        "name": "Content Creation",
+        "category_id": categories[2]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "SEO Optimization",
+        "category_id": categories[2]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Social Media Marketing",
+        "category_id": categories[2]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Email Marketing",
+        "category_id": categories[2]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Brand Strategy",
+        "category_id": categories[2]["id"],
+    },
+    
+    # UI/UX Design
+    {
+        "id": uuid4(),
+        "name": "Wireframing",
+        "category_id": categories[3]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Prototyping",
+        "category_id": categories[3]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "User Research",
+        "category_id": categories[3]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Interaction Design",
+        "category_id": categories[3]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Visual Design",
+        "category_id": categories[3]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Usability Testing",
+        "category_id": categories[3]["id"],
+    },
+    
+    # Editing
+    {
+        "id": uuid4(),
+        "name": "Copy Editing",
+        "category_id": categories[4]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Proofreading",
+        "category_id": categories[4]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Content Editing",
+        "category_id": categories[4]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Technical Editing",
+        "category_id": categories[4]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Transcription",
+        "category_id": categories[4]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Subtitling",
+        "category_id": categories[4]["id"],
+    },
+    
+    # Accounting
+    {
+        "id": uuid4(),
+        "name": "Financial Reporting",
+        "category_id": categories[5]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Tax Preparation",
+        "category_id": categories[5]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Bookkeeping",
+        "category_id": categories[5]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Budgeting",
+        "category_id": categories[5]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Auditing",
+        "category_id": categories[5]["id"],
+    },
+    {
+        "id": uuid4(),
+        "name": "Financial Analysis",
+        "category_id": categories[5]["id"],
+    },
 ]
+
 
 pending_skills = [
     {
