@@ -96,7 +96,7 @@ companies: list[dict[str, Any]] = [
         "city_id": cities[0]["id"],
         "username": "company1",
         "password_hash": hash_password("Company1pwd!"),
-        "name": "Company 1",
+        "name": "Uplers",
         "description": "Company 1 description",
         "address_line": "Company 1 address",
         "email": "company1@gmail.com",
@@ -108,7 +108,7 @@ companies: list[dict[str, Any]] = [
         "city_id": cities[1]["id"],
         "username": "company2",
         "password_hash": hash_password("Company2pwd!"),
-        "name": "Company 2",
+        "name": "Designit",
         "description": "Company 2 description",
         "address_line": "Company 2 address",
         "email": "company2@exmaple.com",
@@ -632,12 +632,10 @@ def insert_job_ads(db: Session) -> None:
 def insert_job_ad_skills(db: Session) -> None:
     for job_ad_skill in job_ad_skills:
         job_ad_skill_model = JobAdSkill(**job_ad_skill)
-        # job_ad_skill_model.job_ad.company.job_ad_count += 1
         db.add(job_ad_skill_model)
     db.commit()
 
 
-# TODO: increment number of job applications for professionals
 def insert_job_applications(db: Session) -> None:
     for job_application in job_applications:
         job_application_model = JobApplication(**job_application)
