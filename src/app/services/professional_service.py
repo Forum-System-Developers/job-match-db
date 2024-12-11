@@ -325,7 +325,7 @@ def set_matches_status(
     )
 
 
-def get_by_sub(sub: str, db: Session) -> UserResponse:
+def get_by_sub(sub: str, db: Session) -> ProfessionalResponse:
     """
     Retrieve a professional by their sub.
 
@@ -346,10 +346,7 @@ def get_by_sub(sub: str, db: Session) -> UserResponse:
             status_code=status.HTTP_404_NOT_FOUND,
         )
 
-    return UserResponse(
-        id=professional.id,
-        user_role=UserRole.PROFESSIONAL,
-    )
+    return get_by_id(professional_id=professional.id, db=db)
 
 
 def get_by_username(username: str, db: Session) -> User:
