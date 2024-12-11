@@ -2,7 +2,16 @@ import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, Integer, LargeBinary, String
+from sqlalchemy import (
+    Boolean,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import expression, func
@@ -46,7 +55,7 @@ class Professional(Base):
         unique=True,
         nullable=False,
     )
-    sub: Mapped[str] = mapped_column(String, unique=True, nullable=True)
+    sub: Mapped[str] = mapped_column(String, nullable=True)
     city_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("city.id"), nullable=False
     )
@@ -86,4 +95,8 @@ class Professional(Base):
         back_populates="professional",
         uselist=True,
         collection_class=list,
+    )
+
+    __table_args__ = (
+        UniqueConstraint("sub", name="unique_sub", postgresql_where=(sub.isnot(None))),
     )
