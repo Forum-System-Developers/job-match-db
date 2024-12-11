@@ -603,53 +603,383 @@ skills = [
 ]
 
 
-pending_skills = [
-    {
-        "id": uuid4(),
-        "category_id": categories[0]["id"],
-        "submitted_by": companies[0]["id"],
-        "name": "Pending Skill 1",
-        "created_at": ensure_valid_created_at(companies[0]["created_at"]),
-    },
-]
+pending_skills = []
 
 job_ads = [
+    # UI/UX Design Category (2 job_ads)
     {
         "id": uuid4(),
-        "company_id": companies[0]["id"],
-        "category_id": categories[0]["id"],
-        "location_id": cities[0]["id"],
-        "title": "Job Ad 1",
-        "description": "Job Ad 1 description",
-        "min_salary": 1000.0,
-        "max_salary": 2000.0,
+        "company_id": companies[4]["id"],  # DesignGurus
+        "category_id": categories[3]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "UI/UX Designer",
+        "description": "Join DesignGurus as a UI/UX Designer. Work on innovative projects that improve user experiences and interfaces.",
+        "min_salary": 1800.0,
+        "max_salary": 2700.0,
         "skill_level": SkillLevel.INTERMEDIATE,
         "status": JobAdStatus.ACTIVE,
         "created_at": random_date_within_last_month(),
     },
     {
         "id": uuid4(),
-        "company_id": companies[1]["id"],
-        "category_id": categories[1]["id"],
-        "location_id": cities[1]["id"],
-        "title": "Job Ad 2",
-        "description": "Job Ad 2 description",
+        "company_id": companies[4]["id"],  # DesignGurus
+        "category_id": categories[3]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "UX Researcher",
+        "description": "DesignGurus is looking for a UX Researcher to conduct usability testing and help shape the design process.",
         "min_salary": 2000.0,
+        "max_salary": 2900.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+        # Job Ad 1 (Sofia, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[0]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Backend Developer",
+        "description": "Join CodeCraft Ltd. as a Backend Developer to build high-performance applications with scalable architecture.",
+        "min_salary": 2500.0,
+        "max_salary": 3500.0,
+        "skill_level": SkillLevel.EXPERT,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 2 (Berlin, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[0]["id"],
+        "location_id": cities[1]["id"],  # Berlin
+        "title": "Full-stack Developer",
+        "description": "As a Full-stack Developer at CodeCraft Ltd., you'll work with a team to create modern web applications from frontend to backend.",
+        "min_salary": 2200.0,
+        "max_salary": 3300.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 3 (Vienna, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[0]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Frontend Developer",
+        "description": "CodeCraft Ltd. is looking for a talented Frontend Developer to craft user interfaces that stand out in the industry.",
+        "min_salary": 2100.0,
+        "max_salary": 3000.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 4 (Paris, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[0]["id"],
+        "location_id": cities[3]["id"],  # Paris
+        "title": "DevOps Engineer",
+        "description": "Looking for a DevOps Engineer at LogicCore Solutions to streamline continuous integration and deployment processes.",
+        "min_salary": 2800.0,
+        "max_salary": 3800.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 5 (Sofia, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[0]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Mobile Developer",
+        "description": "CodeCraft Ltd. is hiring a Mobile Developer to create cutting-edge applications for iOS and Android.",
+        "min_salary": 2400.0,
+        "max_salary": 3500.0,
+        "skill_level": SkillLevel.EXPERT,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 6 (Berlin, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[0]["id"],
+        "location_id": cities[1]["id"],  # Berlin
+        "title": "Software Engineer",
+        "description": "CodeCraft Ltd. is looking for a Software Engineer to contribute to developing world-class solutions.",
+        "min_salary": 2300.0,
+        "max_salary": 3200.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 7 (Vienna, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[0]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Systems Architect",
+        "description": "LogicCore Solutions is searching for a Systems Architect to help design robust and scalable systems for our clients.",
+        "min_salary": 2600.0,
+        "max_salary": 3700.0,
+        "skill_level": SkillLevel.EXPERT,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 8 (Paris, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[0]["id"],
+        "location_id": cities[3]["id"],  # Paris
+        "title": "Cloud Engineer",
+        "description": "Join CodeCraft Ltd. as a Cloud Engineer to manage cloud-based infrastructure and deploy applications.",
+        "min_salary": 2700.0,
+        "max_salary": 3700.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 1 (Sofia, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[1]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Telemarketing Specialist",
+        "description": "LogicCore Solutions is looking for a motivated Telemarketing Specialist to help promote our products and services.",
+        "min_salary": 1500.0,
+        "max_salary": 2200.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 2 (Berlin, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[1]["id"],
+        "location_id": cities[1]["id"],  # Berlin
+        "title": "Telemarketing Executive",
+        "description": "Join LogicCore Solutions as a Telemarketing Executive and drive our growth by reaching out to potential customers.",
+        "min_salary": 1600.0,
+        "max_salary": 2300.0,
+        "skill_level": SkillLevel.INTERN,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 3 (Vienna, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[1]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Customer Service Representative",
+        "description": "Looking for a Customer Service Representative to handle calls and ensure excellent customer service for LogicCore Solutions.",
+        "min_salary": 1700.0,
+        "max_salary": 2400.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 4 (Paris, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[1]["id"],
+        "location_id": cities[3]["id"],  # Paris
+        "title": "Inbound Telemarketing Agent",
+        "description": "CodeCraft Ltd. seeks an Inbound Telemarketing Agent to manage customer inquiries and assist in sales campaigns.",
+        "min_salary": 1800.0,
+        "max_salary": 2500.0,
+        "skill_level": SkillLevel.INTERN,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 5 (Sofia, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[1]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Telemarketing Manager",
+        "description": "Join LogicCore Solutions as a Telemarketing Manager to lead a team and oversee the telemarketing operations.",
+        "min_salary": 2200.0,
         "max_salary": 3000.0,
         "skill_level": SkillLevel.ADVANCED,
         "status": JobAdStatus.ACTIVE,
         "created_at": random_date_within_last_month(),
     },
+    # Job Ad 1 (Sofia, CodeCraft Ltd.)
     {
         "id": uuid4(),
-        "company_id": companies[2]["id"],
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
         "category_id": categories[2]["id"],
-        "location_id": cities[2]["id"],
-        "title": "Job Ad 3",
-        "description": "Job Ad 3 description",
-        "min_salary": 3000.0,
-        "max_salary": 4000.0,
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Marketing Coordinator",
+        "description": "CodeCraft Ltd. is looking for a Marketing Coordinator to manage campaigns and help increase brand awareness.",
+        "min_salary": 1800.0,
+        "max_salary": 2500.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 2 (Berlin, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[2]["id"],
+        "location_id": cities[1]["id"],  # Berlin
+        "title": "Digital Marketing Specialist",
+        "description": "Join LogicCore Solutions as a Digital Marketing Specialist to drive our online presence through SEO and content strategies.",
+        "min_salary": 2000.0,
+        "max_salary": 2800.0,
         "skill_level": SkillLevel.EXPERT,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 3 (Vienna, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[2]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Content Marketing Manager",
+        "description": "CodeCraft Ltd. is looking for a Content Marketing Manager to oversee content creation and strategy for our brand.",
+        "min_salary": 2200.0,
+        "max_salary": 3000.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 4 (Paris, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[2]["id"],
+        "location_id": cities[3]["id"],  # Paris
+        "title": "Social Media Marketing Strategist",
+        "description": "LogicCore Solutions is hiring a Social Media Marketing Strategist to create and execute social media campaigns.",
+        "min_salary": 2500.0,
+        "max_salary": 3200.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 1 (Sofia, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[4]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Video Editor",
+        "description": "CodeCraft Ltd. is looking for a creative Video Editor to work on high-quality video projects for digital marketing.",
+        "min_salary": 1800.0,
+        "max_salary": 2300.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 2 (Berlin, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[4]["id"],
+        "location_id": cities[1]["id"],  # Berlin
+        "title": "Content Editor",
+        "description": "Join LogicCore Solutions as a Content Editor to create and edit content for websites, blogs, and marketing campaigns.",
+        "min_salary": 2100.0,
+        "max_salary": 2600.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 3 (Vienna, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[4]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Proofreader",
+        "description": "CodeCraft Ltd. is hiring a Proofreader to ensure high-quality written content and correct any grammatical errors.",
+        "min_salary": 1900.0,
+        "max_salary": 2400.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 1 (Paris, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[5]["id"],
+        "location_id": cities[3]["id"],  # Paris
+        "title": "Financial Analyst",
+        "description": "CodeCraft Ltd. is seeking a Financial Analyst to help prepare financial statements and analyze financial data.",
+        "min_salary": 2500.0,
+        "max_salary": 3000.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 2 (Berlin, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[5]["id"],
+        "location_id": cities[1]["id"],  # Berlin
+        "title": "Accountant",
+        "description": "We are looking for an experienced Accountant to manage all accounting functions at LogicCore Solutions.",
+        "min_salary": 2200.0,
+        "max_salary": 2700.0,
+        "skill_level": SkillLevel.INTERMEDIATE,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 3 (Vienna, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[5]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Tax Specialist",
+        "description": "LogicCore Solutions is looking for a Tax Specialist to assist with tax filings and advise on tax compliance.",
+        "min_salary": 2400.0,
+        "max_salary": 2900.0,
+        "skill_level": SkillLevel.ADVANCED,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 4 (Vienna, CodeCraft Ltd.)
+    {
+        "id": uuid4(),
+        "company_id": companies[0]["id"],  # CodeCraft Ltd.
+        "category_id": categories[5]["id"],
+        "location_id": cities[2]["id"],  # Vienna
+        "title": "Junior Accountant",
+        "description": "CodeCraft Ltd. is hiring a Junior Accountant to assist in daily accounting operations and maintain financial records.",
+        "min_salary": 1800.0,
+        "max_salary": 2300.0,
+        "skill_level": SkillLevel.INTERN,
+        "status": JobAdStatus.ACTIVE,
+        "created_at": random_date_within_last_month(),
+    },
+    # Job Ad 5 (Sofia, LogicCore Solutions)
+    {
+        "id": uuid4(),
+        "company_id": companies[1]["id"],  # LogicCore Solutions
+        "category_id": categories[5]["id"],
+        "location_id": cities[0]["id"],  # Sofia
+        "title": "Payroll Manager",
+        "description": "We are looking for a Payroll Manager to oversee all payroll functions for employees at LogicCore Solutions.",
+        "min_salary": 2300.0,
+        "max_salary": 2800.0,
+        "skill_level": SkillLevel.ADVANCED,
         "status": JobAdStatus.ACTIVE,
         "created_at": random_date_within_last_month(),
     },
@@ -814,11 +1144,18 @@ def insert_job_ad_skills(db: Session) -> None:
 
 
 def insert_job_applications(db: Session) -> None:
+    job_application_models = []
     for job_application in job_applications:
-        job_application_model = JobApplication(**job_application)
-        job_application_model.professional.active_application_count += 1
+        job_application_model = JobApplication(**job_application) 
+        job_application_models.append(job_application_model)
         db.add(job_application_model)
+        db.commit()
+        db.refresh(job_application_model)
+
+    for job_application in job_application_models:
+        job_application.professional.active_application_count += 1
     db.commit()
+        
 
 
 def insert_skills(db: Session) -> None:
