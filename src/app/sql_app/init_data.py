@@ -986,17 +986,386 @@ job_ads = [
 ]
 
 job_ad_skills = [
+    # UI/UX Designer (Sofia, DesignGurus)
     {
         "job_ad_id": job_ads[0]["id"],
-        "skill_id": skills[0]["id"],
+        "skill_id": skills[18]["id"],  # Wireframing
+    },
+    {
+        "job_ad_id": job_ads[0]["id"],
+        "skill_id": skills[19]["id"],  # Prototyping
+    },
+    {
+        "job_ad_id": job_ads[0]["id"],
+        "skill_id": skills[20]["id"],  # User Research
+    },
+    {
+        "job_ad_id": job_ads[0]["id"],
+        "skill_id": skills[22]["id"],  # Visual Design
+    },
+    
+    # UX Researcher (Vienna, DesignGurus)
+    {
+        "job_ad_id": job_ads[1]["id"],
+        "skill_id": skills[20]["id"],  # User Research
     },
     {
         "job_ad_id": job_ads[1]["id"],
-        "skill_id": skills[1]["id"],
+        "skill_id": skills[23]["id"],  # Usability Testing
+    },
+    {
+        "job_ad_id": job_ads[1]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+    {
+        "job_ad_id": job_ads[1]["id"],
+        "skill_id": skills[18]["id"],  # Wireframing
+    },
+
+    # Backend Developer (Sofia, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[2]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
     },
     {
         "job_ad_id": job_ads[2]["id"],
-        "skill_id": skills[2]["id"],
+        "skill_id": skills[2]["id"],  # Database Management
+    },
+    {
+        "job_ad_id": job_ads[2]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_ad_id": job_ads[2]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+
+    # Full-stack Developer (Berlin, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[3]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_ad_id": job_ads[3]["id"],
+        "skill_id": skills[3]["id"],  # JavaScript
+    },
+    {
+        "job_ad_id": job_ads[3]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_ad_id": job_ads[3]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+
+    # Frontend Developer (Vienna, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[4]["id"],
+        "skill_id": skills[3]["id"],  # JavaScript
+    },
+    {
+        "job_ad_id": job_ads[4]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_ad_id": job_ads[4]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_ad_id": job_ads[4]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+
+    # DevOps Engineer (Paris, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[5]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_ad_id": job_ads[5]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_ad_id": job_ads[5]["id"],
+        "skill_id": skills[6]["id"],  # Cold Calling
+    },
+    {
+        "job_ad_id": job_ads[5]["id"],
+        "skill_id": skills[7]["id"],  # Lead Generation
+    },
+
+    # Mobile Developer (Sofia, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[6]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_ad_id": job_ads[6]["id"],
+        "skill_id": skills[3]["id"],  # JavaScript
+    },
+    {
+        "job_ad_id": job_ads[6]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_ad_id": job_ads[6]["id"],
+        "skill_id": skills[8]["id"],  # Script Writing
+    },
+
+    # Software Engineer (Berlin, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[7]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_ad_id": job_ads[7]["id"],
+        "skill_id": skills[3]["id"],  # JavaScript
+    },
+    {
+        "job_ad_id": job_ads[7]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_ad_id": job_ads[7]["id"],
+        "skill_id": skills[9]["id"],  # Negotiation Skills
+    },
+
+    # Systems Architect (Vienna, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[8]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_ad_id": job_ads[8]["id"],
+        "skill_id": skills[2]["id"],  # Database Management
+    },
+    {
+        "job_ad_id": job_ads[8]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_ad_id": job_ads[8]["id"],
+        "skill_id": skills[10]["id"],  # Market Research
+    },
+
+    # Cloud Engineer (Paris, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[9]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_ad_id": job_ads[9]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_ad_id": job_ads[9]["id"],
+        "skill_id": skills[6]["id"],  # Cold Calling
+    },
+    {
+        "job_ad_id": job_ads[9]["id"],
+        "skill_id": skills[11]["id"],  # Script Writing
+    },
+
+    # Telemarketing Specialist (Sofia, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[10]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_ad_id": job_ads[10]["id"],
+        "skill_id": skills[13]["id"],  # Customer Service
+    },
+
+    # Telemarketing Executive (Berlin, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[11]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_ad_id": job_ads[11]["id"],
+        "skill_id": skills[14]["id"],  # Problem Solving
+    },
+
+    # Customer Service Representative (Vienna, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[12]["id"],
+        "skill_id": skills[13]["id"],  # Customer Service
+    },
+    {
+        "job_ad_id": job_ads[12]["id"],
+        "skill_id": skills[14]["id"],  # Problem Solving
+    },
+
+    # Inbound Telemarketing Agent (Paris, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[13]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_ad_id": job_ads[13]["id"],
+        "skill_id": skills[13]["id"],  # Customer Service
+    },
+    {
+        "job_ad_id": job_ads[13]["id"],
+        "skill_id": skills[14]["id"],  # Problem Solving
+    },
+    {
+        "job_ad_id": job_ads[13]["id"],
+        "skill_id": skills[15]["id"],  # Time Management
+    },
+
+    # Telemarketing Manager (Sofia, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[14]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_ad_id": job_ads[14]["id"],
+        "skill_id": skills[16]["id"],  # Leadership
+    },
+    {
+        "job_ad_id": job_ads[14]["id"],
+        "skill_id": skills[17]["id"],  # Strategic Planning
+    },
+
+    # Marketing Coordinator (Sofia, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[15]["id"],
+        "skill_id": skills[18]["id"],  # Wireframing
+    },
+    {
+        "job_ad_id": job_ads[15]["id"],
+        "skill_id": skills[19]["id"],  # Prototyping
+    },
+    {
+        "job_ad_id": job_ads[15]["id"],
+        "skill_id": skills[20]["id"],  # User Research
+    },
+    {
+        "job_ad_id": job_ads[15]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+
+    # Digital Marketing Specialist (Berlin, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[16]["id"],
+        "skill_id": skills[22]["id"],  # Visual Design
+    },
+    {
+        "job_ad_id": job_ads[16]["id"],
+        "skill_id": skills[23]["id"],  # Usability Testing
+    },
+    {
+        "job_ad_id": job_ads[16]["id"],
+        "skill_id": skills[24]["id"],  # SEO
+    },
+    {
+        "job_ad_id": job_ads[16]["id"],
+        "skill_id": skills[25]["id"],  # Content Strategy
+    },
+
+    # Content Marketing Manager (Vienna, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[17]["id"],
+        "skill_id": skills[24]["id"],  # SEO
+    },
+    {
+        "job_ad_id": job_ads[17]["id"],
+        "skill_id": skills[25]["id"],  # Content Strategy
+    },
+    {
+        "job_ad_id": job_ads[17]["id"],
+        "skill_id": skills[26]["id"],  # Copywriting
+    },
+    {
+        "job_ad_id": job_ads[17]["id"],
+        "skill_id": skills[27]["id"],  # Email Marketing
+    },
+
+    # Social Media Marketing Strategist (Paris, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[18]["id"],
+        "skill_id": skills[26]["id"],  # Copywriting
+    },
+    {
+        "job_ad_id": job_ads[18]["id"],
+        "skill_id": skills[27]["id"],  # Email Marketing
+    },
+    {
+        "job_ad_id": job_ads[18]["id"],
+        "skill_id": skills[28]["id"],  # Social Media Management
+    },
+    {
+        "job_ad_id": job_ads[18]["id"],
+        "skill_id": skills[29]["id"],  # Analytics
+    },
+
+    # Video Editor (Sofia, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[19]["id"],
+        "skill_id": skills[30]["id"],  # Video Editing
+    },
+    {
+        "job_ad_id": job_ads[19]["id"],
+        "skill_id": skills[31]["id"],  # Motion Graphics
+    },
+    {
+        "job_ad_id": job_ads[19]["id"],
+        "skill_id": skills[32]["id"],  # Color Correction
+    },
+    {
+        "job_ad_id": job_ads[19]["id"],
+        "skill_id": skills[33]["id"],  # Sound Design
+    },
+
+    # Content Editor (Berlin, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[20]["id"],
+        "skill_id": skills[34]["id"],  # Editing
+    },
+    {
+        "job_ad_id": job_ads[20]["id"],
+        "skill_id": skills[35]["id"],  # Proofreading
+    },
+
+    #generate skills within the range of existing skills!
+    # Proofreader (Vienna, CodeCraft Ltd.)
+    # DONT GENEREATE SKILLS with 36 INDEX ID AND MORE
+    {
+        "job_ad_id": job_ads[21]["id"],
+        "skill_id": skills[35]["id"],  # Proofreading
+    },
+
+    # Financial Analyst (Paris, CodeCraft Ltd.)
+    {
+        "job_ad_id": job_ads[22]["id"],
+        "skill_id": skills[35]["id"],  # Financial Analysis
+    },
+
+    # Accountant (Berlin, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[23]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
+    },
+
+    # Tax Specialist (Vienna, LogicCore Solutions)
+    {
+        "job_ad_id": job_ads[24]["id"],
+        "skill_id": skills[33]["id"],  # Tax Compliance
+    },
+
+    # Junior Accountant (Vienna, CodeCraft Ltd.)
+
+    {
+        "job_ad_id": job_ads[25]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
+    },
+
+    # Payroll Manager (Sofia, LogicCore Solutions)
+
+    {
+        "job_ad_id": job_ads[26]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
     },
 ]
 
@@ -1042,35 +1411,7 @@ job_applications = [
     },
 ]
 
-job_application_skills = [
-    {
-        "job_application_id": job_applications[0]["id"],
-        "skill_id": skills[0]["id"],
-    },
-    {
-        "job_application_id": job_applications[1]["id"],
-        "skill_id": skills[1]["id"],
-    },
-    {
-        "job_application_id": job_applications[2]["id"],
-        "skill_id": skills[2]["id"],
-    },
-]
-
-category_job_applications = [
-    {
-        "category_id": categories[0]["id"],
-        "job_application_id": job_applications[0]["id"],
-    },
-    {
-        "category_id": categories[1]["id"],
-        "job_application_id": job_applications[1]["id"],
-    },
-    {
-        "category_id": categories[2]["id"],
-        "job_application_id": job_applications[2]["id"],
-    },
-]
+job_application_skills = []
 
 matches = [
     {
