@@ -41,37 +41,56 @@ def ensure_valid_created_at(target_date: datetime) -> datetime:
 cities = [
     {
         "id": uuid4(),
-        "name": "City1",
+        "name": "Sofia",
     },
     {
         "id": uuid4(),
-        "name": "City2",
+        "name": "Berlin",
     },
     {
         "id": uuid4(),
-        "name": "City3",
+        "name": "Vienna",
     },
     {
         "id": uuid4(),
-        "name": "City4",
+        "name": "Paris",
+    },
+    {
+        "id": uuid4(),
+        "name": "London",
     },
 ]
 
 categories = [
     {
         "id": uuid4(),
-        "title": "IT",
-        "description": "Information Technology",
+        "title": "Development",
+        "description": "Category for development jobs",
+    },
+    {
+        "id": uuid4(),
+        "title": "Telemarketing",
+        "description": "Category for telemarketing jobs",
     },
     {
         "id": uuid4(),
         "title": "Marketing",
-        "description": "Marketing",
+        "description": "Category for marketing jobs",
     },
     {
         "id": uuid4(),
-        "title": "Logistics",
-        "description": "Logistics",
+        "title": "UI/UX Design",
+        "description": "Category for UI/UX design jobs",
+    },
+    {
+        "id": uuid4(),
+        "title": "Editing",
+        "description": "Category for editing jobs",
+    },
+    {
+        "id": uuid4(),
+        "title": "Accounting",
+        "description": "Category for accounting jobs",
     },
 ]
 
