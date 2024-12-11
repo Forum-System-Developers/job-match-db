@@ -19,7 +19,7 @@ from app.schemas.professional import (
     ProfessionalUpdate,
 )
 from app.schemas.skill import SkillResponse
-from app.schemas.user import User
+from app.schemas.user import User, UserResponse, UserRole
 from app.services import match_service
 from app.services.common import get_professional_by_id
 from app.sql_app.job_ad.job_ad import JobAd
@@ -322,6 +322,33 @@ def set_matches_status(
 
     return MessageResponse(
         message=f"Matches set as {'private' if private_matches.status else 'public'}"
+    )
+
+
+def get_by_sub(sub: str, db: Session) -> UserResponse:
+    """
+    Retrieve a professional by their sub.
+
+    Args:
+        sub (str): The sub of the professional to retrieve.
+        db (Session): The database session to use for the query.
+
+    Returns:
+        UserResponse: A UserResponse object representing the retrieved professional.
+
+    Raises:
+        ApplicationError: If no professional with the given sub is found.
+    """
+    professional = db.query(Professional).filter(Professional.sub == sub).first()
+    if professional is None:
+        raise ApplicationError(
+            detail=f"User with sub {sub} does not exist",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return UserResponse(
+        id=professional.id,
+        user_role=UserRole.PROFESSIONAL,
     )
 
 
