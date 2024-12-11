@@ -57,6 +57,24 @@ def get_professional_by_id(
 
 
 @router.get(
+    "/by-sub/{sub}",
+    description="Retrieve professional by sub.",
+)
+def get_professional_by_sub(
+    sub: str,
+    db: Session = Depends(get_db),
+) -> JSONResponse:
+    def _get_professional_by_sub():
+        return professional_service.get_by_sub(sub=sub, db=db)
+
+    return process_request(
+        get_entities_fn=_get_professional_by_sub,
+        status_code=status.HTTP_200_OK,
+        not_found_err_msg=f"Professional with sub {sub} not found",
+    )
+
+
+@router.get(
     "/by-username/{username}",
     description="Retrieve professional by username.",
 )
