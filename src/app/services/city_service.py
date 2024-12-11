@@ -48,6 +48,30 @@ def get_by_id(
     return CityResponse(id=city.id, name=city.name)
 
 
+def get_default(
+    db: Session,
+) -> CityResponse:
+    """
+    Retrieve the default city from the database.
+
+    Args:
+        db (Session): The database session used to query the city.
+
+    Returns:
+        CityResponse: A CityResponse object containing the id and name of the default city.
+
+    Raises:
+        ApplicationError: If no default city is found.
+    """
+    city = db.query(City).first()
+    if city is None:
+        raise ApplicationError(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No default city found",
+        )
+    return CityResponse(id=city.id, name=city.name)
+
+
 def get_by_name(
     city_name: str,
     db: Session,
