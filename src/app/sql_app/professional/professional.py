@@ -97,4 +97,4 @@ class Professional(Base):
         collection_class=list,
     )
 
-    __table_args__ = Index("unique_sub", "sub", postgresql_where=(sub.isnot(None)))
+    __table_args__ = (Index("unique_sub", "sub", postgresql_where=(sub.isnot(None))),)
