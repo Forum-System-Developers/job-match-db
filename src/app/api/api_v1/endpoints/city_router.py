@@ -23,6 +23,21 @@ def get_all_cities(db: Session = Depends(get_db)) -> JSONResponse:
     )
 
 
+@router.get(
+    "/default",
+    description="Retrieve the default city.",
+)
+def get_default_city(db: Session = Depends(get_db)) -> JSONResponse:
+    def _get_default_city():
+        return city_service.get_default(db)
+
+    return process_request(
+        get_entities_fn=_get_default_city,
+        status_code=status.HTTP_200_OK,
+        not_found_err_msg="Default city not found",
+    )
+
+
 @router.get("/{city_id}", description="Retrieve a city by its identifier.")
 def get_city_by_id(city_id: UUID, db: Session = Depends(get_db)) -> JSONResponse:
     def _get_city_by_id():
