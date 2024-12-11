@@ -32,6 +32,7 @@ class ProfessionalCreate(BaseModel):
         email (EmailStr): The email address of the professional user.
     """
 
+    sub: str | None = None
     first_name: str
     last_name: str
     description: str
