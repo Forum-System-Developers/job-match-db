@@ -7,10 +7,10 @@ from sqlalchemy import (
     DateTime,
     Enum,
     ForeignKey,
+    Index,
     Integer,
     LargeBinary,
     String,
-    UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -97,6 +97,4 @@ class Professional(Base):
         collection_class=list,
     )
 
-    __table_args__ = (
-        UniqueConstraint("sub", name="unique_sub", postgresql_where=(sub.isnot(None))),
-    )
+    __table_args__ = Index("unique_sub", "sub", postgresql_where=(sub.isnot(None)))
