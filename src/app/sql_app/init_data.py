@@ -472,7 +472,7 @@ skills = [
         "name": "Market Research",
         "category_id": categories[1]["id"],
     },
-    
+
     # Marketing
     {
         "id": uuid4(),
@@ -728,7 +728,7 @@ job_ads = [
         "min_salary": 2600.0,
         "max_salary": 3700.0,
         "skill_level": SkillLevel.EXPERT,
-        "status": JobAdStatus.ACTIVE,
+        "status": JobAdStatus.ARCHIVED,
         "created_at": random_date_within_last_month(),
     },
     # Job Ad 8 (Paris, CodeCraft Ltd.)
@@ -798,7 +798,7 @@ job_ads = [
         "min_salary": 1800.0,
         "max_salary": 2500.0,
         "skill_level": SkillLevel.INTERN,
-        "status": JobAdStatus.ACTIVE,
+        "status": JobAdStatus.ARCHIVED,
         "created_at": random_date_within_last_month(),
     },
     # Job Ad 5 (Sofia, LogicCore Solutions)
@@ -896,7 +896,7 @@ job_ads = [
         "min_salary": 2100.0,
         "max_salary": 2600.0,
         "skill_level": SkillLevel.ADVANCED,
-        "status": JobAdStatus.ACTIVE,
+        "status": JobAdStatus.ARCHIVED,
         "created_at": random_date_within_last_month(),
     },
     # Job Ad 3 (Vienna, CodeCraft Ltd.)
@@ -980,7 +980,7 @@ job_ads = [
         "min_salary": 2300.0,
         "max_salary": 2800.0,
         "skill_level": SkillLevel.ADVANCED,
-        "status": JobAdStatus.ACTIVE,
+        "status": JobAdStatus.ARCHIVED,
         "created_at": random_date_within_last_month(),
     },
 ]
@@ -1375,8 +1375,8 @@ job_applications = [
         "category_id": categories[0]["id"],
         "city_id": cities[0]["id"],
         "professional_id": professionals[0]["id"],
-        "name": "Job Application 1",
-        "description": "Job Application 1",
+        "name": "Backend Developer Application",
+        "description": "This is a sample application for the Backend Developer position. I have experience with Python, and RESTful APIs.",
         "min_salary": 1000.0,
         "max_salary": 2000.0,
         "status": JobStatus.ACTIVE,
@@ -1385,13 +1385,52 @@ job_applications = [
     },
     {
         "id": uuid4(),
-        "category_id": categories[1]["id"],
+        "category_id": categories[0]["id"],
         "city_id": cities[1]["id"],
-        "professional_id": professionals[1]["id"],
-        "name": "Job Application 2",
-        "description": "Job Application 2",
+        "professional_id": professionals[0]["id"],
+        "name": "Frontend Developer Application",
+        "description": "Here is my application for the Frontend Developer position. I have experience with JavaScript and React.",
+        "min_salary": 1000.0,
+        "max_salary": 2200.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[0]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[0]["id"],
+        "city_id": cities[2]["id"],
+        "professional_id": professionals[0]["id"],
+        "name": "DevOps Engineer Application",
+        "description": "I am applying for the DevOps Engineer position. I have experience with Docker, Kubernetes, and CI/CD pipelines.",
         "min_salary": 2000.0,
-        "max_salary": 3000.0,
+        "max_salary": 2750.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[0]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[1]["id"],
+        "city_id": cities[3]["id"],
+        "professional_id": professionals[0]["id"],
+        "name": "Telemarketing Specialist Application",
+        "description": "This is a sample application for the Telemarketing Specialist position. I have experience with cold calling and customer service.",
+        "min_salary": 2400.0,
+        "max_salary": 3500.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[0]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[1]["id"],
+        "city_id": cities[0]["id"],
+        "professional_id": professionals[1]["id"],
+        "name": "Telemarketing Executive Application",
+        "description": "I have experience with cold calling and problem solving. Here is my application for the Telemarketing Executive position.",
+        "min_salary": 1900.0,
+        "max_salary": 2200.0,
         "status": JobStatus.ACTIVE,
         "is_main": False,
         "created_at": ensure_valid_created_at(professionals[1]["created_at"]),
@@ -1399,19 +1438,264 @@ job_applications = [
     {
         "id": uuid4(),
         "category_id": categories[2]["id"],
+        "city_id": cities[1]["id"],
+        "professional_id": professionals[1]["id"],
+        "name": "Digital Marketing Specialist Application",
+        "description": "My application for the Digital Marketing Specialist position. I have experience with SEO and content strategies.",
+        "min_salary": 2900.0,
+        "max_salary": 3200.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[1]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[3]["id"],
         "city_id": cities[2]["id"],
+        "professional_id": professionals[1]["id"],
+        "name": "UX Designer Application",
+        "description": "Here is my application for the UX Designer position. I have experience with wireframing and prototyping.",
+        "min_salary": 1200.0,
+        "max_salary": 1800.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[1]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[4]["id"],
+        "city_id": cities[3]["id"],
         "professional_id": professionals[2]["id"],
-        "name": "Job Application 3",
-        "description": "Job Application 3",
-        "min_salary": 3000.0,
-        "max_salary": 4000.0,
+        "name": "Content Editor Application",
+        "description": "I have experience with editing and proofreading. Here is my application for the Content Editor position.",
+        "min_salary": 1000.0,
+        "max_salary": 2600.0,
         "status": JobStatus.ACTIVE,
         "is_main": False,
         "created_at": ensure_valid_created_at(professionals[2]["created_at"]),
     },
+    {
+        "id": uuid4(),
+        "category_id": categories[5]["id"],
+        "city_id": cities[0]["id"],
+        "professional_id": professionals[2]["id"],
+        "name": "Financial Analyst Application",
+        "description": "This is a sample application for the Financial Analyst position. I have experience with financial analysis and reporting.",
+        "min_salary": 1000.0,
+        "max_salary": 2000.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[2]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[5]["id"],
+        "city_id": cities[1]["id"],
+        "professional_id": professionals[2]["id"],
+        "name": "Accountant Application",
+        "description": "I have experience with accounting and financial reporting. Here is my application for the Accountant position.",
+        "min_salary": 1300.0,
+        "max_salary": 1700.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[2]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[4]["id"],
+        "city_id": cities[3]["id"],
+        "professional_id": professionals[3]["id"],
+        "name": "Proofreader Application",
+        "description": "Here is my application for the Proofreader position. I have experience with editing and proofreading.",
+        "min_salary": 1650.0,
+        "max_salary": 2125.0,
+        "status": JobStatus.ACTIVE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[3]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[3]["id"],
+        "city_id": cities[0]["id"],
+        "professional_id": professionals[3]["id"],
+        "name": "UI Designer Application",
+        "description": "I have experience with wireframing and prototyping. Here is my application for the UI Designer position.",
+        "min_salary": 3150.0,
+        "max_salary": 3500.0,
+        "status": JobStatus.HIDDEN,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[3]["created_at"]),
+    },
+    {
+        "id": uuid4(),
+        "category_id": categories[2]["id"],
+        "city_id": cities[1]["id"],
+        "professional_id": professionals[3]["id"],
+        "name": "Marketing Coordinator Application",
+        "description": "Hello! I have experience with wireframing. Here is my application for the Marketing Coordinator position.",
+        "min_salary": 1250.0,
+        "max_salary": 2100.0,
+        "status": JobStatus.PRIVATE,
+        "is_main": False,
+        "created_at": ensure_valid_created_at(professionals[3]["created_at"]),
+    },
 ]
 
-job_application_skills = []
+job_application_skills = [
+
+    # Backend Developer Application
+
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[2]["id"],  # Database Management
+    },
+
+    # Frontend Developer Application
+
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[3]["id"],  # JavaScript
+    },
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+
+    # DevOps Engineer Application
+
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[6]["id"],  # Cold Calling
+    },
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[7]["id"],  # Lead Generation
+    },
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[9]["id"],  # Negotiation Skills
+    },
+
+    # Telemarketing Specialist Application
+
+    {
+        "job_application_id": job_applications[3]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_application_id": job_applications[3]["id"],
+        "skill_id": skills[13]["id"],  # Customer Service
+    },
+
+    # Telemarketing Executive Application
+
+    {
+        "job_application_id": job_applications[4]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_application_id": job_applications[4]["id"],
+        "skill_id": skills[14]["id"],  # Problem Solving
+    },
+
+    # Digital Marketing Specialist Application
+
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[22]["id"],  # Visual Design
+    },
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[23]["id"],  # Usability Testing
+    },
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[24]["id"],  # SEO
+    },
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[25]["id"],  # Content Strategy
+    },
+
+    # UX Designer Application
+    
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[18]["id"],  # Wireframing
+    },
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[19]["id"],  # Prototyping
+    },
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[20]["id"],  # User Research
+    },
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+
+    # Content Editor Application
+    
+    {
+        "job_application_id": job_applications[7]["id"],
+        "skill_id": skills[34]["id"],  # Editing
+    },
+    {
+        "job_application_id": job_applications[7]["id"],
+        "skill_id": skills[35]["id"],  # Proofreading
+    },
+
+    # Financial Analyst Application
+
+    {
+        "job_application_id": job_applications[8]["id"],
+        "skill_id": skills[35]["id"],  # Financial Analysis
+    },
+
+    # Accountant Application
+    
+    {
+        "job_application_id": job_applications[9]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
+    },
+
+    # Proofreader Application
+    
+    {
+        "job_application_id": job_applications[10]["id"],
+        "skill_id": skills[35]["id"],  # Proofreading
+    },
+    {
+        "job_application_id": job_applications[10]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
+    }
+]
 
 matches = [
     {
