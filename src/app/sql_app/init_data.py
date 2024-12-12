@@ -1541,7 +1541,161 @@ job_applications = [
     },
 ]
 
-job_application_skills = []
+job_application_skills = [
+
+    # Backend Developer Application
+
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_application_id": job_applications[0]["id"],
+        "skill_id": skills[2]["id"],  # Database Management
+    },
+
+    # Frontend Developer Application
+
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[3]["id"],  # JavaScript
+    },
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[4]["id"],  # Version Control (Git)
+    },
+    {
+        "job_application_id": job_applications[1]["id"],
+        "skill_id": skills[5]["id"],  # API Development
+    },
+
+    # DevOps Engineer Application
+
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[6]["id"],  # Cold Calling
+    },
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[7]["id"],  # Lead Generation
+    },
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[0]["id"],  # Python Programming
+    },
+    {
+        "job_application_id": job_applications[2]["id"],
+        "skill_id": skills[9]["id"],  # Negotiation Skills
+    },
+
+    # Telemarketing Specialist Application
+
+    {
+        "job_application_id": job_applications[3]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_application_id": job_applications[3]["id"],
+        "skill_id": skills[13]["id"],  # Customer Service
+    },
+
+    # Telemarketing Executive Application
+
+    {
+        "job_application_id": job_applications[4]["id"],
+        "skill_id": skills[12]["id"],  # Cold Calling
+    },
+    {
+        "job_application_id": job_applications[4]["id"],
+        "skill_id": skills[14]["id"],  # Problem Solving
+    },
+
+    # Digital Marketing Specialist Application
+
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[22]["id"],  # Visual Design
+    },
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[23]["id"],  # Usability Testing
+    },
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[24]["id"],  # SEO
+    },
+    {
+        "job_application_id": job_applications[5]["id"],
+        "skill_id": skills[25]["id"],  # Content Strategy
+    },
+
+    # UX Designer Application
+    
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[18]["id"],  # Wireframing
+    },
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[19]["id"],  # Prototyping
+    },
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[20]["id"],  # User Research
+    },
+    {
+        "job_application_id": job_applications[6]["id"],
+        "skill_id": skills[21]["id"],  # Interaction Design
+    },
+
+    # Content Editor Application
+    
+    {
+        "job_application_id": job_applications[7]["id"],
+        "skill_id": skills[34]["id"],  # Editing
+    },
+    {
+        "job_application_id": job_applications[7]["id"],
+        "skill_id": skills[35]["id"],  # Proofreading
+    },
+
+    # Financial Analyst Application
+
+    {
+        "job_application_id": job_applications[8]["id"],
+        "skill_id": skills[35]["id"],  # Financial Analysis
+    },
+
+    # Accountant Application
+    
+    {
+        "job_application_id": job_applications[9]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
+    },
+
+    # Proofreader Application
+    
+    {
+        "job_application_id": job_applications[10]["id"],
+        "skill_id": skills[35]["id"],  # Proofreading
+    },
+    {
+        "job_application_id": job_applications[10]["id"],
+        "skill_id": skills[34]["id"],  # Accounting
+    }
+]
 
 matches = [
     {
