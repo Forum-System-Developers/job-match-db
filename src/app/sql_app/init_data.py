@@ -101,6 +101,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Tech Park Blvd, Sofia",
         "email": "contact@codecraft.bg",
         "phone_number": "1234567890",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -113,6 +115,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "StartHub Strasse, Berlin",
         "email": "hello@logiccore.de",
         "phone_number": "0987654321",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -125,6 +129,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Rue Telecontact, Paris",
         "email": "info@dialdirect.fr",
         "phone_number": "1357924680",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -137,6 +143,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Market Square 12, Vienna",
         "email": "support@callnova.at",
         "phone_number": "2468135790",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -149,6 +157,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Creative Hub Blvd, Sofia",
         "email": "contact@brandboost.bg",
         "phone_number": "9876543210",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -161,6 +171,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Branding Alley, Berlin",
         "email": "info@promojet.de",
         "phone_number": "3216549870",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -173,6 +185,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Design District, Paris",
         "email": "studio@uxvision.fr",
         "phone_number": "1928374650",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -185,6 +199,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Innovation Street, Vienna",
         "email": "hello@uidesigns.at",
         "phone_number": "4567891230",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -197,6 +213,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Writers Avenue, Sofia",
         "email": "contact@editorshub.bg",
         "phone_number": "7891234560",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -209,6 +227,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Edit Lane, Berlin",
         "email": "info@redpen.de",
         "phone_number": "6543217890",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -221,6 +241,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Finance Plaza, Paris",
         "email": "service@accountplus.fr",
         "phone_number": "1237894560",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
     {
@@ -233,6 +255,8 @@ companies: list[dict[str, Any]] = [
         "address_line": "Profit Street, Vienna",
         "email": "info@fintrack.at",
         "phone_number": "9873216540",
+        "website_url": "https://example.com/",
+        "youtube_video_id": "tWoo8i_VkvI",
         "created_at": random_date_within_last_month(),
     },
 ]
