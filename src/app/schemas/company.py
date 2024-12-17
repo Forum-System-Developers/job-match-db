@@ -3,7 +3,7 @@ from urllib.parse import parse_qs, urlparse
 from uuid import UUID
 
 from fastapi import status
-from pydantic import BaseModel, EmailStr, HttpUrl, field_validator, model_validator
+from pydantic import BaseModel, EmailStr, model_validator
 
 from app.exceptions.custom_exceptions import ApplicationError
 from app.schemas.custom_types import PASSWORD_REGEX, Password, Username
@@ -18,7 +18,7 @@ class CompanyBase(BaseModel):
     description: str
     email: EmailStr
     phone_number: str
-    website_url: HttpUrl | None = None
+    website_url: str | None = None
     youtube_video_id: str | None = None
     active_job_ads: int = 0
     successful_matches: int = 0
@@ -36,6 +36,8 @@ class CompanyBase(BaseModel):
             description=company.description,
             email=company.email,
             phone_number=company.phone_number,
+            website_url=company.website_url,
+            youtube_video_id=company.youtube_video_id,
             active_job_ads=company.active_job_count or 0,
             successful_matches=company.successfull_matches_count or 0,
         )
