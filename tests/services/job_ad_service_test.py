@@ -7,7 +7,6 @@ from sqlalchemy import asc, desc
 from app.schemas.city import City
 from app.schemas.common import FilterParams, JobAdSearchParams, MessageResponse
 from app.schemas.job_ad import JobAdCreate, JobAdUpdate
-from app.sql_app.job_ad.job_ad_status import JobAdStatus
 from app.services.job_ad_service import (
     _filter_by_salary,
     _filter_by_skills,
@@ -20,6 +19,7 @@ from app.services.job_ad_service import (
     update,
 )
 from app.sql_app.job_ad.job_ad import JobAd
+from app.sql_app.job_ad.job_ad_status import JobAdStatus
 from tests import test_data as td
 from tests.utils import assert_called_with, assert_filter_called_with
 
@@ -45,12 +45,12 @@ def mock_job_ad(mocker):
             category=category,
             status=JobAdStatus.ACTIVE,
         )
-    
+
     return _create_mock_job_ad
 
 
 def test_getAll_returnsJobAds_whenJobAdsExist(
-    mocker, 
+    mocker,
     mock_db,
     mock_job_ad,
 ) -> None:
@@ -209,7 +209,9 @@ def test_update_updatesJobAd_whenValidData(mocker, mock_db, mock_job_ad) -> None
     assert result == mock_job_ad_response
 
 
-def test_updateJobAd_updatesTitle_whenTitleIsProvided(mocker, mock_db, mock_job_ad) -> None:
+def test_updateJobAd_updatesTitle_whenTitleIsProvided(
+    mocker, mock_db, mock_job_ad
+) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
     job_ad_data = JobAdUpdate(title=td.VALID_JOB_AD_TITLE_2)
@@ -239,9 +241,7 @@ def test_updateJobAd_updatesTitle_whenTitleIsProvided(mocker, mock_db, mock_job_
 
 
 def test_updateJobAd_updatesDescription_whenDescriptionIsProvided(
-    mocker, 
-    mock_db, 
-    mock_job_ad
+    mocker, mock_db, mock_job_ad
 ) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
@@ -271,7 +271,9 @@ def test_updateJobAd_updatesDescription_whenDescriptionIsProvided(
     assert result.status == job_ad.status
 
 
-def test_updateJobAd_updatesLocation_whenLocationIsProvided(mocker, mock_db, mock_job_ad) -> None:
+def test_updateJobAd_updatesLocation_whenLocationIsProvided(
+    mocker, mock_db, mock_job_ad
+) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
     job_ad_data = JobAdUpdate(location_id=td.VALID_CITY_ID)
@@ -300,8 +302,8 @@ def test_updateJobAd_updatesLocation_whenLocationIsProvided(mocker, mock_db, moc
 
 
 def test_updateJobAd_updatesMinSalary_whenMinSalaryIsProvided(
-    mocker, 
-    mock_db, 
+    mocker,
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange
@@ -332,7 +334,9 @@ def test_updateJobAd_updatesMinSalary_whenMinSalaryIsProvided(
     assert result.status == job_ad.status
 
 
-def test_updateJobAd_updatesMaxSalary_whenMaxSalaryIsProvided(mocker, mock_db, mock_job_ad) -> None:
+def test_updateJobAd_updatesMaxSalary_whenMaxSalaryIsProvided(
+    mocker, mock_db, mock_job_ad
+) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
     job_ad_data = JobAdUpdate(max_salary=3000.00)
@@ -361,7 +365,9 @@ def test_updateJobAd_updatesMaxSalary_whenMaxSalaryIsProvided(mocker, mock_db, m
     assert result.status == job_ad.status
 
 
-def test_updateJobAd_updatesStatus_whenStatusIsProvided(mocker, mock_db, mock_job_ad) -> None:
+def test_updateJobAd_updatesStatus_whenStatusIsProvided(
+    mocker, mock_db, mock_job_ad
+) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
     job_ad_data = JobAdUpdate(status=JobAdStatus.ARCHIVED)
@@ -390,7 +396,9 @@ def test_updateJobAd_updatesStatus_whenStatusIsProvided(mocker, mock_db, mock_jo
     assert result.max_salary == job_ad.max_salary
 
 
-def test_updateJobAd_updatesAllFields_whenAllFieldsAreProvided(mocker, mock_db, mock_job_ad) -> None:
+def test_updateJobAd_updatesAllFields_whenAllFieldsAreProvided(
+    mocker, mock_db, mock_job_ad
+) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
     job_ad_data = JobAdUpdate(
@@ -424,7 +432,9 @@ def test_updateJobAd_updatesAllFields_whenAllFieldsAreProvided(mocker, mock_db, 
     assert isinstance(result.updated_at, datetime)
 
 
-def test_updateJobAd_updatesNothing_whenNoFieldsAreProvided(mocker, mock_db, mock_job_ad) -> None:
+def test_updateJobAd_updatesNothing_whenNoFieldsAreProvided(
+    mocker, mock_db, mock_job_ad
+) -> None:
     # Arrange
     job_ad = mock_job_ad(td.JOB_AD)
     job_ad_data = JobAdUpdate()
@@ -452,8 +462,8 @@ def test_updateJobAd_updatesNothing_whenNoFieldsAreProvided(mocker, mock_db, moc
 
 
 def test_addSkillRequirement_addsSkillRequirement_whenValidData(
-    mocker, 
-    mock_db, 
+    mocker,
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange
@@ -698,7 +708,9 @@ def test_filterBySalary_filtersByMinAndMaxSalary(mock_db, mock_job_ad) -> None:
     assert result.all() == job_ads
 
 
-def test_filterBySkills_returnsJobAds_whenNoSkillsProvided(mock_db, mock_job_ad) -> None:
+def test_filterBySkills_returnsJobAds_whenNoSkillsProvided(
+    mock_db, mock_job_ad
+) -> None:
     # Arrange
     search_params = JobAdSearchParams()
     job_ads = [mock_job_ad(td.JOB_AD), mock_job_ad(td.JOB_AD_2)]
@@ -715,7 +727,9 @@ def test_filterBySkills_returnsJobAds_whenNoSkillsProvided(mock_db, mock_job_ad)
     assert result.all() == job_ads
 
 
-def test_filterBySkills_filtersBySkills_whenSkillsProvided(mock_db, mock_job_ad) -> None:
+def test_filterBySkills_filtersBySkills_whenSkillsProvided(
+    mock_db, mock_job_ad
+) -> None:
     # Arrange
     search_params = JobAdSearchParams(
         skills=[td.VALID_SKILL_NAME, td.VALID_SKILL_NAME_2]
@@ -736,7 +750,7 @@ def test_filterBySkills_filtersBySkills_whenSkillsProvided(mock_db, mock_job_ad)
 
 
 def test_filterBySkills_filtersBySkills_whenSkillThresholdIsLessThanNumberOfSkills(
-    mock_db, 
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange
@@ -760,7 +774,7 @@ def test_filterBySkills_filtersBySkills_whenSkillThresholdIsLessThanNumberOfSkil
 
 
 def test_filterBySkills_filtersBySkills_whenSkillThresholdEqualsNumberOfSkills(
-    mock_db, 
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange
@@ -783,7 +797,7 @@ def test_filterBySkills_filtersBySkills_whenSkillThresholdEqualsNumberOfSkills(
 
 
 def test_orderBy_ordersByCreatedAtAsc_whenCreatedAtAscIsProvided(
-    mock_db, 
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange
@@ -803,7 +817,7 @@ def test_orderBy_ordersByCreatedAtAsc_whenCreatedAtAscIsProvided(
 
 
 def test_orderBy_ordersByCreatedAtDesc_whenCreatedAtDescIsProvided(
-    mock_db, 
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange
@@ -823,7 +837,7 @@ def test_orderBy_ordersByCreatedAtDesc_whenCreatedAtDescIsProvided(
 
 
 def test_orderBy_ordersByUpdatedAtAsc_whenUpdatedAtAscIsProvided(
-    mock_db, 
+    mock_db,
     mock_job_ad,
 ) -> None:
     # Arrange

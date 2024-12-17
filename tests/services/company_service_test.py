@@ -240,9 +240,7 @@ def test_getByPhoneNumber_raisesApplicationError_whenCompanyIsNotFound(mock_db) 
     with pytest.raises(ApplicationError) as exc:
         company_service.get_by_phone_number(phone_number=mock_phone_number, db=mock_db)
 
-    assert_filter_called_with(
-        mock_query, Company.phone_number == mock_phone_number
-    )
+    assert_filter_called_with(mock_query, Company.phone_number == mock_phone_number)
     mock_query.filter.return_value.first.assert_called_once()
     assert exc.value.data.status == status.HTTP_404_NOT_FOUND
     assert (
