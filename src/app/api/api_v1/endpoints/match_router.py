@@ -6,7 +6,7 @@ from pytest import Session
 
 from app.schemas.common import FilterParams
 from app.schemas.match import MatchRequestCreate, MatchRequestUpdate
-from app.services import match_request_service
+from app.services import match_service
 from app.sql_app.database import get_db
 from app.utils.processors import process_request
 
@@ -23,7 +23,7 @@ def get_match_request(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_match_request():
-        return match_request_service.get_by_id(
+        return match_service.get_by_id(
             job_ad_id=job_ad_id, job_application_id=job_application_id, db=db
         )
 
@@ -45,7 +45,7 @@ def update_match_status(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _update_match_status():
-        return match_request_service.update_status(
+        return match_service.update_status(
             job_ad_id=job_ad_id,
             job_application_id=job_application_id,
             match_request_data=match_request_data,
@@ -68,9 +68,7 @@ def create_match_request(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _create_match_request():
-        return match_request_service.create(
-            match_request_data=match_request_data, db=db
-        )
+        return match_service.create(match_request_data=match_request_data, db=db)
 
     return process_request(
         get_entities_fn=_create_match_request,
@@ -89,7 +87,7 @@ def accept_match_request(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _accept_match_request():
-        return match_request_service.accept_match_request(
+        return match_service.accept_match_request(
             job_ad_id=job_ad_id, job_application_id=job_application_id, db=db
         )
 
@@ -110,7 +108,7 @@ def get_match_requests_for_job_application(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_match_requests_for_job_application():
-        return match_request_service.get_match_requests_for_job_application(
+        return match_service.get_match_requests_for_job_application(
             job_application_id=job_application_id,
             filter_params=filter_params,
             db=db,
@@ -132,7 +130,7 @@ def get_match_requests_for_professional(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_match_requests_for_professional():
-        return match_request_service.get_match_requests_for_professional(
+        return match_service.get_match_requests_for_professional(
             professional_id=professional_id, db=db
         )
 
@@ -153,7 +151,7 @@ def get_match_requests_for_company(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_match_requests_for_company():
-        return match_request_service.get_match_requests_for_company(
+        return match_service.get_match_requests_for_company(
             company_id=company_id, filter_params=filter_params, db=db
         )
 
@@ -173,9 +171,7 @@ def get_job_ad_received_matches(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_job_ad_received_matches():
-        return match_request_service.get_job_ad_received_matches(
-            job_ad_id=job_ad_id, db=db
-        )
+        return match_service.get_job_ad_received_matches(job_ad_id=job_ad_id, db=db)
 
     return process_request(
         get_entities_fn=_get_job_ad_received_matches,
@@ -193,7 +189,7 @@ def get_job_ad_sent_matches(
     db: Session = Depends(get_db),
 ) -> JSONResponse:
     def _get_job_ad_sent_matches():
-        return match_request_service.get_job_ad_sent_matches(job_ad_id=job_ad_id, db=db)
+        return match_service.get_job_ad_sent_matches(job_ad_id=job_ad_id, db=db)
 
     return process_request(
         get_entities_fn=_get_job_ad_sent_matches,

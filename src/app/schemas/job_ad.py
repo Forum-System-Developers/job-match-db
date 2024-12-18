@@ -25,6 +25,7 @@ class BaseJobAd(BaseModel):
 
 class JobAdPreview(BaseJobAd):
     city: City
+    category_id: UUID
     category_name: str
 
     @classmethod
