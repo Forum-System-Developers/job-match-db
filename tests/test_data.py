@@ -98,6 +98,9 @@ VALID_PROFESSIONAL_LAST_NAME = "Professional"
 VALID_PROFESSIONAL_DESCRIPTION = "Test Description"
 VALID_PROFESSIONAL_ACTIVE_APPLICATION_COUNT = 0
 
+VALID_PROFESSIONAL_FIRST_NAME_2 = "Test 2"
+VALID_PROFESSIONAL_LAST_NAME_2 = "Professional 2"
+
 PROFESSIONAL_RESPONSE = {
     "id": VALID_PROFESSIONAL_ID,
     "first_name": VALID_PROFESSIONAL_FIRST_NAME,
@@ -110,19 +113,6 @@ PROFESSIONAL_RESPONSE = {
     "active_application_count": VALID_PROFESSIONAL_ACTIVE_APPLICATION_COUNT,
     "has_private_matches": False,
 }
-
-# PROFESSIONAL_REQUEST = ProfessionalRequestBody(
-#     professional=ProfessionalCreate(
-#         username=VALID_PROFESSIONAL_USERNAME,
-#         password=VALID_PROFESSIONAL_PASSWORD,
-#         email=VALID_PROFESSIONAL_EMAIL,
-#         first_name=VALID_PROFESSIONAL_FIRST_NAME,
-#         last_name=VALID_PROFESSIONAL_LAST_NAME,
-#         description=VALID_PROFESSIONAL_DESCRIPTION,
-#         city=VALID_CITY_NAME,
-#     ),
-#     status=ProfessionalStatus.ACTIVE,
-# )
 
 PROFESSIONAL_MODEL = {
     "id": VALID_PROFESSIONAL_ID,
