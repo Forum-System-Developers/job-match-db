@@ -5,6 +5,7 @@ from uuid import UUID
 
 from fastapi import HTTPException, UploadFile, status
 from fastapi.responses import StreamingResponse
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from app.exceptions.custom_exceptions import ApplicationError
@@ -19,7 +20,7 @@ from app.schemas.professional import (
     ProfessionalUpdate,
 )
 from app.schemas.skill import SkillResponse
-from app.schemas.user import User, UserResponse, UserRole
+from app.schemas.user import User
 from app.services import match_service
 from app.services.common import get_professional_by_id
 from app.sql_app.job_ad.job_ad import JobAd
@@ -53,15 +54,19 @@ def get_all(
     )
 
     if search_params.order == "desc":
-        professionals.order_by(getattr(Professional, search_params.order_by).desc())
+        professionals = professionals.order_by(
+            getattr(Professional, search_params.order_by).desc()
+        )
     else:
-        professionals.order_by(getattr(Professional, search_params.order_by).asc())
+        professionals = professionals.order_by(
+            getattr(Professional, search_params.order_by).asc()
+        )
     logger.info(
         f"Order Professionals based on search params order {search_params.order} and order_by {search_params.order_by}"
     )
 
-    professionals = professionals.offset(filter_params.offset).limit(
-        filter_params.limit
+    professionals_list = (
+        professionals.offset(filter_params.offset).limit(filter_params.limit).all()
     )
     logger.info(
         f"Retrieved all professionals with status ACTIVE and filtered by offset {filter_params.offset} and limit {filter_params.limit}"
@@ -72,7 +77,7 @@ def get_all(
             professional=professional,
             skills=get_skills(professional_id=professional.id, db=db),
         )
-        for professional in professionals.all()
+        for professional in professionals_list
     ]
 
 
@@ -415,8 +420,10 @@ def get_applications(
     applications = (
         db.query(JobApplication)
         .filter(
-            JobApplication.professional_id == professional_id,
-            JobApplication.status == search_status,
+            and_(
+                JobApplication.professional_id == professional_id,
+                JobApplication.status == search_status,
+            )
         )
         .offset(filter_params.offset)
         .limit(filter_params.limit)
@@ -451,8 +458,10 @@ def get_application(
     job_application = (
         db.query(JobApplication)
         .filter(
-            JobApplication.professional_id == professional_id,
-            JobApplication.id == job_application_id,
+            and_(
+                JobApplication.professional_id == professional_id,
+                JobApplication.id == job_application_id,
+            )
         )
         .first()
     )
@@ -549,8 +558,10 @@ def _get_matches(professional_id: UUID, db: Session) -> list[JobAdPreview]:
         .join(Match, Match.job_ad_id == JobAd.id)
         .join(JobApplication, Match.job_application_id == JobApplication.id)
         .filter(
-            JobApplication.professional_id == professional_id,
-            JobApplication.status == JobStatus.MATCHED,
+            and_(
+                JobApplication.professional_id == professional_id,
+                JobApplication.status == JobStatus.MATCHED,
+            )
         )
         .all()
     )
