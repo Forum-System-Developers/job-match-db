@@ -31,6 +31,7 @@ def get_all_job_ads(
         get_entities_fn=_get_all_job_ads,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="No job ads found",
+        db=db,
     )
 
 
@@ -46,6 +47,7 @@ def get_job_ad_by_id(job_ad_id: UUID, db: Session = Depends(get_db)) -> JSONResp
         get_entities_fn=_get_job_ad_by_id,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Job ad with id {job_ad_id} not found",
+        db=db,
     )
 
 
@@ -64,6 +66,7 @@ def create_job_ad(
         get_entities_fn=_create_job_ad,
         status_code=status.HTTP_201_CREATED,
         not_found_err_msg="Job Ad not created",
+        db=db,
     )
 
 
@@ -87,6 +90,7 @@ def update_job_ad(
         get_entities_fn=_update_job_ad,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Job Ad with id {job_ad_id} not found",
+        db=db,
     )
 
 
@@ -110,4 +114,5 @@ def add_job_ad_skill(
         get_entities_fn=_add_job_ad_skill,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Job Ad with id {job_ad_id} not found",
+        db=db,
     )
