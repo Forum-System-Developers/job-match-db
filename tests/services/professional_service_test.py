@@ -1269,7 +1269,7 @@ def test_getSkills_returnsSkills_whenSkillsExist(
     )
     mock_skill_1.name = td.VALID_SKILL_NAME
     mock_job_application.skills.append(mock_skill_1)
-    
+
     mock_skill_2 = mocker.Mock(
         id=td.VALID_SKILL_ID_2,
         category_id=td.VALID_CATEGORY_ID_2,
