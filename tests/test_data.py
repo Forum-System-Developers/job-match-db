@@ -256,6 +256,23 @@ JOB_APPLICATION_CREATE = {
     "status": JobStatus.ACTIVE,
 }
 
+JOB_APPLICATION_UPDATE = {
+    "name": VALID_JOB_APPLICATION_NAME,
+    "min_salary": 1000.00,
+    "max_salary": 2000.00,
+    "description": VALID_JOB_APPLICATION_DESCRIPTION,
+    "city_id": VALID_CITY_ID,
+    "skills": [
+        {
+            "id": VALID_SKILL_ID,
+            "category_id": VALID_CATEGORY_ID,
+            "name": VALID_SKILL_NAME,
+        },
+    ],
+    "is_main": True,
+    "application_status": JobStatus.ACTIVE,
+}
+
 JOB_APPLICATION_2 = {
     "id": VALID_JOB_APPLICATION_ID_2,
     "description": VALID_JOB_APPLICATION_DESCRIPTION_2,
