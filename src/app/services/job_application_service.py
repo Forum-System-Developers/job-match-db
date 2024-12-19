@@ -159,9 +159,9 @@ def update(
     job_application = get_job_application_by_id(
         job_application_id=job_application_id, db=db
     )
-    new_skills = job_application_data.skills
+    # new_skills = job_application_data.skills
     job_application_data = JobApplicationUpdate(
-        **job_application_data.model_dump(), exclude={"skills"}
+        **job_application_data.model_dump(exclude={"skills"})
     )
 
     for attr, value in vars(job_application_data).items():
@@ -175,7 +175,7 @@ def update(
 
     if (
         any(value is not None for value in vars(job_application_data).values())
-        or new_skills
+        # or new_skills
     ):
         job_application.updated_at = datetime.now()
 
