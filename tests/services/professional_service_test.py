@@ -1,3 +1,4 @@
+from datetime import datetime
 from unittest.mock import ANY
 
 import pytest
@@ -7,6 +8,7 @@ from app.exceptions.custom_exceptions import ApplicationError
 from app.schemas.job_ad import JobAdPreview
 from app.schemas.job_application import JobSearchStatus
 from app.schemas.match import MatchRequestAd
+from app.schemas.professional import ProfessionalResponse, ProfessionalUpdate
 from app.schemas.skill import SkillResponse
 from app.schemas.user import User
 from app.services import professional_service
@@ -14,6 +16,7 @@ from app.sql_app.job_ad.job_ad import JobAd
 from app.sql_app.job_application.job_application import JobApplication
 from app.sql_app.job_application.job_application_status import JobStatus
 from app.sql_app.professional.professional import Professional
+from app.sql_app.professional.professional_status import ProfessionalStatus
 from tests import test_data as td
 from tests.utils import assert_filter_called_with
 
@@ -281,6 +284,400 @@ def test_create_createsProfessional_whenValidProfessionalData(
     mock_db.commit.assert_called_once()
     mock_db.refresh.assert_called_once_with(ANY)
     assert result == mock_professional_response
+
+
+def test_update_updatesProfessional_whenValidDataProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(**td.PROFESSIONAL_UPDATE)
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    mock_get_professional_by_id.assert_called_once_with(
+        professional_id=mock_professional.id,
+        db=mock_db,
+    )
+    mock_db.commit.assert_called_once()
+    mock_db.refresh.assert_called_once_with(mock_professional)
+    assert isinstance(result, ProfessionalResponse)
+
+
+def test_updatesFirstName_whenFirstNameProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(
+        first_name=td.VALID_PROFESSIONAL_FIRST_NAME_2
+    )
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert result.first_name == professional_data.first_name
+    assert isinstance(mock_professional.updated_at, datetime)
+
+    assert result.id == mock_professional.id
+    assert result.last_name == mock_professional.last_name
+    assert result.email == mock_professional.email
+    assert result.city == mock_professional.city.name
+    assert result.description == mock_professional.description
+    assert result.photo == mock_professional.photo
+    assert result.status == mock_professional.status
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
+
+
+def test_updatesLastName_whenLastNameProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(last_name=td.VALID_PROFESSIONAL_LAST_NAME_2)
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert result.last_name == professional_data.last_name
+    assert isinstance(mock_professional.updated_at, datetime)
+
+    assert result.id == mock_professional.id
+    assert result.first_name == mock_professional.first_name
+    assert result.email == mock_professional.email
+    assert result.city == mock_professional.city.name
+    assert result.description == mock_professional.description
+    assert result.photo == mock_professional.photo
+    assert result.status == mock_professional.status
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
+
+
+def test_updatesDescription_whenDescriptionProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(
+        description=td.VALID_PROFESSIONAL_DESCRIPTION_2
+    )
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert result.description == professional_data.description
+    assert isinstance(mock_professional.updated_at, datetime)
+
+    assert result.id == mock_professional.id
+    assert result.first_name == mock_professional.first_name
+    assert result.last_name == mock_professional.last_name
+    assert result.email == mock_professional.email
+    assert result.city == mock_professional.city.name
+    assert result.photo == mock_professional.photo
+    assert result.status == mock_professional.status
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
+
+
+def test_updatesCityId_whenCityIdProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(city_id=td.VALID_CITY_ID_2)
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert mock_professional.city_id == professional_data.city_id
+    assert isinstance(mock_professional.updated_at, datetime)
+
+    assert result.id == mock_professional.id
+    assert result.first_name == mock_professional.first_name
+    assert result.last_name == mock_professional.last_name
+    assert result.email == mock_professional.email
+    assert result.description == mock_professional.description
+    assert result.photo == mock_professional.photo
+    assert result.status == mock_professional.status
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
+
+
+def test_updatesStatus_whenStatusProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(status=ProfessionalStatus.BUSY)
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert mock_professional.status == professional_data.status
+    assert isinstance(mock_professional.updated_at, datetime)
+
+    assert result.id == mock_professional.id
+    assert result.first_name == mock_professional.first_name
+    assert result.last_name == mock_professional.last_name
+    assert result.email == mock_professional.email
+    assert result.city == mock_professional.city.name
+    assert result.description == mock_professional.description
+    assert result.photo == mock_professional.photo
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
+
+
+def test_updates_updatesAllFields_whenAllFieldsAreProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate(
+        first_name=td.VALID_PROFESSIONAL_FIRST_NAME_2,
+        last_name=td.VALID_PROFESSIONAL_LAST_NAME_2,
+        description=td.VALID_PROFESSIONAL_DESCRIPTION_2,
+        city_id=td.VALID_CITY_ID_2,
+        status=ProfessionalStatus.BUSY,
+    )
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert isinstance(mock_professional.updated_at, datetime)
+    assert result.first_name == professional_data.first_name
+    assert result.last_name == professional_data.last_name
+    assert result.description == professional_data.description
+    assert mock_professional.city_id == professional_data.city_id
+    assert result.status == ProfessionalStatus.BUSY
+
+    assert result.id == mock_professional.id
+    assert result.email == mock_professional.email
+    assert result.photo == mock_professional.photo
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
+
+
+def test_updatesNothing_whenNoFieldsAreProvided(
+    mocker,
+    mock_db,
+    mock_professional,
+) -> None:
+    # Arrange
+    professional_data = ProfessionalUpdate()
+
+    mock_get_professional_by_id = mocker.patch(
+        "app.services.professional_service.get_professional_by_id",
+        return_value=mock_professional,
+    )
+    mock_get_matches = mocker.patch(
+        "app.services.professional_service._get_matches",
+        return_value=[],
+    )
+    mock_get_skills = mocker.patch(
+        "app.services.professional_service.get_skills",
+        return_value=[],
+    )
+    mock_get_sent_match_requests = mocker.patch(
+        "app.services.professional_service.get_sent_match_requests",
+        return_value=[],
+    )
+
+    # Act
+    result = professional_service.update(
+        professional_id=mock_professional.id,
+        professional_data=professional_data,
+        db=mock_db,
+    )
+
+    # Assert
+    assert not isinstance(mock_professional.updated_at, datetime)
+    assert result.id == mock_professional.id
+    assert result.first_name == mock_professional.first_name
+    assert result.last_name == mock_professional.last_name
+    assert result.email == mock_professional.email
+    assert result.city == mock_professional.city.name
+    assert result.description == mock_professional.description
+    assert result.photo == mock_professional.photo
+    assert result.status == mock_professional.status
+    assert result.active_application_count == mock_professional.active_application_count
+    assert result.skills == []
+    assert result.matched_ads == []
+    assert result.sent_match_requests == []
 
 
 def test_uploadPhoto_uploadsPhoto_whenFileIsValid(mocker, mock_db):
@@ -865,18 +1262,20 @@ def test_getSkills_returnsSkills_whenSkillsExist(
     mock_professional,
 ) -> None:
     # Arrange
-    mock_job_application = mocker.Mock()
+    mock_job_application = mocker.Mock(skills=[])
     mock_skill_1 = mocker.Mock(
         id=td.VALID_SKILL_ID,
         category_id=td.VALID_CATEGORY_ID,
     )
     mock_skill_1.name = td.VALID_SKILL_NAME
+    mock_job_application.skills.append(mock_skill_1)
+    
     mock_skill_2 = mocker.Mock(
         id=td.VALID_SKILL_ID_2,
         category_id=td.VALID_CATEGORY_ID_2,
     )
     mock_skill_2.name = td.VALID_SKILL_NAME_2
-    mock_job_application.skills = [mock_skill_1, mock_skill_2]
+    mock_job_application.skills.append(mock_skill_2)
     mock_professional.job_applications = [mock_job_application]
 
     mock_get_professional_by_id = mocker.patch(
