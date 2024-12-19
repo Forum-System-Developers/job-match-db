@@ -27,6 +27,7 @@ def get_all_skills_for_category(
         get_entities_fn=_get_all_skills_for_category,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"No skills found for category with id {category_id}",
+        db=db,
     )
 
 
@@ -45,6 +46,7 @@ def get_skill_by_id(
         get_entities_fn=_get_skill_by_id,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Skill with id {skill_id} not found",
+        db=db,
     )
 
 
@@ -63,4 +65,5 @@ def create_skill(
         get_entities_fn=_create_skill,
         status_code=status.HTTP_201_CREATED,
         not_found_err_msg="Error creating skill",
+        db=db,
     )

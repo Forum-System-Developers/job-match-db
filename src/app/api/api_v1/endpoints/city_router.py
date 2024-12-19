@@ -20,6 +20,7 @@ def get_all_cities(db: Session = Depends(get_db)) -> JSONResponse:
         get_entities_fn=_get_all_cities,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="No cities found",
+        db=db,
     )
 
 
@@ -35,6 +36,7 @@ def get_default_city(db: Session = Depends(get_db)) -> JSONResponse:
         get_entities_fn=_get_default_city,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Default city not found",
+        db=db,
     )
 
 
@@ -47,6 +49,7 @@ def get_city_by_id(city_id: UUID, db: Session = Depends(get_db)) -> JSONResponse
         get_entities_fn=_get_city_by_id,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"No city found with id {city_id}",
+        db=db,
     )
 
 
@@ -59,4 +62,5 @@ def get_city_by_name(city_name: str, db: Session = Depends(get_db)) -> JSONRespo
         get_entities_fn=_get_city_by_name,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"No city found with name {city_name}",
+        db=db,
     )
