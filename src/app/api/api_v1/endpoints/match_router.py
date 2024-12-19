@@ -2,7 +2,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
-from pytest import Session
+from sqlalchemy.orm import Session
 
 from app.schemas.common import FilterParams
 from app.schemas.match import MatchRequestCreate, MatchRequestUpdate
@@ -31,6 +31,7 @@ def get_match_request(
         get_entities_fn=_get_match_request,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not fetch match request",
+        db=db,
     )
 
 
@@ -56,6 +57,7 @@ def update_match_status(
         get_entities_fn=_update_match_status,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not update match request",
+        db=db,
     )
 
 
@@ -74,6 +76,7 @@ def create_match_request(
         get_entities_fn=_create_match_request,
         status_code=status.HTTP_201_CREATED,
         not_found_err_msg="Could not create match request",
+        db=db,
     )
 
 
@@ -95,6 +98,7 @@ def accept_match_request(
         get_entities_fn=_accept_match_request,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not accept match request",
+        db=db,
     )
 
 
@@ -118,6 +122,7 @@ def get_match_requests_for_job_application(
         get_entities_fn=_get_match_requests_for_job_application,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not fetch match requests for job ad",
+        db=db,
     )
 
 
@@ -138,6 +143,7 @@ def get_match_requests_for_professional(
         get_entities_fn=_get_match_requests_for_professional,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not fetch match requests for professional",
+        db=db,
     )
 
 
@@ -159,6 +165,7 @@ def get_match_requests_for_company(
         get_entities_fn=_get_match_requests_for_company,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not fetch match requests for company",
+        db=db,
     )
 
 
@@ -177,6 +184,7 @@ def get_job_ad_received_matches(
         get_entities_fn=_get_job_ad_received_matches,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not fetch received match requests for job ad",
+        db=db,
     )
 
 
@@ -195,4 +203,5 @@ def get_job_ad_sent_matches(
         get_entities_fn=_get_job_ad_sent_matches,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not fetch sent match requests for job ad",
+        db=db,
     )
