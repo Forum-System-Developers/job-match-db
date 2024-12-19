@@ -118,7 +118,7 @@ PROFESSIONAL_MODEL = {
     "id": VALID_PROFESSIONAL_ID,
     "city_id": VALID_CITY_ID,
     "username": VALID_PROFESSIONAL_USERNAME,
-    "password": VALID_PROFESSIONAL_PASSWORD,
+    "password_hash": HASHED_PASSWORD,
     "description": VALID_PROFESSIONAL_DESCRIPTION,
     "email": VALID_PROFESSIONAL_EMAIL,
     "photo": None,
@@ -126,6 +126,17 @@ PROFESSIONAL_MODEL = {
     "active_application_count": VALID_PROFESSIONAL_ACTIVE_APPLICATION_COUNT,
     "first_name": VALID_PROFESSIONAL_FIRST_NAME,
     "last_name": VALID_PROFESSIONAL_LAST_NAME,
+    "has_private_matches": False,
+}
+
+PROFESSIONAL_CREATE = {
+    "first_name": VALID_PROFESSIONAL_FIRST_NAME,
+    "last_name": VALID_PROFESSIONAL_LAST_NAME,
+    "description": VALID_PROFESSIONAL_DESCRIPTION,
+    "city_id": VALID_CITY_ID,
+    "username": VALID_PROFESSIONAL_USERNAME,
+    "password_hash": HASHED_PASSWORD,
+    "email": VALID_PROFESSIONAL_EMAIL,
 }
 
 VALID_JOB_AD_ID_2 = uuid.uuid4()
