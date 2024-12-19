@@ -459,7 +459,8 @@ def test_update_updatesStatus_whenStatusIsProvided(
     skills_response,
 ) -> None:
     # Arrange
-    job_application_data = JobApplicationUpdate(status=JobStatus.PRIVATE)
+    status = JobStatus.PRIVATE
+    job_application_data = JobApplicationUpdate(status=status)
 
     mock_get_job_application_by_id = mocker.patch(
         "app.services.job_application_service.get_job_application_by_id",
@@ -478,7 +479,7 @@ def test_update_updatesStatus_whenStatusIsProvided(
         job_application_id=mock_job_application.id,
         db=mock_db,
     )
-    assert result.status == job_application_data.status.value
+    assert result.status == status.value
     assert isinstance(mock_job_application.updated_at, datetime)
 
     assert result.name == mock_job_application.name
@@ -598,12 +599,13 @@ def test_update_updatesAllFields_whenAllFieldsAreProvided(
     skills_response,
 ) -> None:
     # Arrange
+    status = JobStatus.PRIVATE
     job_application_data = JobApplicationUpdate(
         name=td.VALID_JOB_APPLICATION_NAME_2,
         description=td.VALID_JOB_APPLICATION_DESCRIPTION_2,
         min_salary=50.00,
         max_salary=3500.00,
-        status=JobStatus.PRIVATE,
+        status=status,
         city_id=td.VALID_CITY_ID_2,
         is_main=True,
     )
@@ -630,7 +632,7 @@ def test_update_updatesAllFields_whenAllFieldsAreProvided(
     assert result.description == job_application_data.description
     assert result.min_salary == job_application_data.min_salary
     assert result.max_salary == job_application_data.max_salary
-    assert result.status == job_application_data.status.value
+    assert result.status == status.value
     assert mock_job_application.is_main == job_application_data.is_main
     assert result.city == mock_job_application.professional.city.name
     assert result.skills == skills_response
