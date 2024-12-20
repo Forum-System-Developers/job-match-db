@@ -3,28 +3,11 @@ from enum import Enum
 from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, Field, model_validator
-from sqlalchemy.orm import Session
 
-from app.schemas.city import City
 from app.schemas.custom_types import Salary
-from app.schemas.professional import ProfessionalResponse
 from app.schemas.skill import SkillBase, SkillResponse
 from app.sql_app.job_application.job_application import JobApplication
 from app.sql_app.job_application.job_application_status import JobStatus
-from app.sql_app.professional.professional import Professional
-
-# class JobStatus(str, Enum):
-#     """
-
-#     Attributes:
-#         ACTIVE: Appears in Company searches.
-#         PRIVATE: Can only be seen by the Creator.
-#         HIDDEN: Accessible only by ID.
-#     """
-
-#     ACTIVE = "active"
-#     PRIVATE = "private"
-#     HIDDEN = "hidden"
 
 
 class JobSearchStatus(str, Enum):

@@ -34,6 +34,7 @@ def get_all(
         get_entities_fn=_get_all,
         status_code=status_code.HTTP_200_OK,
         not_found_err_msg="Could not fetch Job Applications",
+        db=db,
     )
 
 
@@ -54,6 +55,7 @@ def get_by_id(
         get_entities_fn=_get_by_id,
         status_code=status_code.HTTP_200_OK,
         not_found_err_msg="Could not fetch Job Application",
+        db=db,
     )
 
 
@@ -75,6 +77,7 @@ def create(
         get_entities_fn=_create,
         status_code=status_code.HTTP_201_CREATED,
         not_found_err_msg="Job application could not be created",
+        db=db,
     )
 
 
@@ -100,4 +103,5 @@ def update(
         get_entities_fn=_update,
         status_code=status_code.HTTP_200_OK,
         not_found_err_msg="Job application could not be updated",
+        db=db,
     )

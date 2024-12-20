@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, File, Form, Query, UploadFile, status
+from fastapi import APIRouter, Depends, File, Query, UploadFile, status
 from fastapi.responses import JSONResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
@@ -13,7 +13,7 @@ from app.schemas.professional import (
 )
 from app.services import professional_service
 from app.sql_app.database import get_db
-from app.utils.processors import process_request
+from app.utils.processors import process_db_transaction, process_request
 
 router = APIRouter()
 
@@ -36,6 +36,7 @@ def get_all_professionals(
         get_entities_fn=_get_all_professionals,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="No professionals found",
+        db=db,
     )
 
 
@@ -53,6 +54,7 @@ def get_professional_by_id(
         get_entities_fn=_get_professional_by_id,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Professional with id {professional_id} not found",
+        db=db,
     )
 
 
@@ -71,6 +73,7 @@ def get_professional_by_sub(
         get_entities_fn=_get_professional_by_sub,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Professional with sub {sub} not found",
+        db=db,
     )
 
 
@@ -89,6 +92,7 @@ def get_professional_by_username(
         get_entities_fn=_get_professional_by_username,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Professional with username {username} not found",
+        db=db,
     )
 
 
@@ -107,6 +111,7 @@ def create_professional(
         get_entities_fn=_create_professional,
         status_code=status.HTTP_201_CREATED,
         not_found_err_msg="Professional not created",
+        db=db,
     )
 
 
@@ -128,6 +133,7 @@ def update_professional(
         get_entities_fn=_update_professional,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Professional with id {professional_id} not found",
+        db=db,
     )
 
 
@@ -139,7 +145,16 @@ def get_professional_photo(
     professional_id: UUID,
     db: Session = Depends(get_db),
 ) -> StreamingResponse:
-    return professional_service.download_photo(professional_id=professional_id, db=db)
+    def _get_professional_photo():
+        return professional_service.download_photo(
+            professional_id=professional_id,
+            db=db,
+        )
+
+    return process_db_transaction(
+        transaction_func=_get_professional_photo,
+        db=db,
+    )
 
 
 @router.post(
@@ -160,6 +175,7 @@ def upload_professional_photo(
         get_entities_fn=_upload_professional_photo,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Photo for professional with id {professional_id} not uploaded",
+        db=db,
     )
 
 
@@ -171,7 +187,16 @@ def get_professional_cv(
     professional_id: UUID,
     db: Session = Depends(get_db),
 ) -> StreamingResponse:
-    return professional_service.download_cv(professional_id=professional_id, db=db)
+    def _get_professional_cv():
+        return professional_service.download_cv(
+            professional_id=professional_id,
+            db=db,
+        )
+
+    return process_db_transaction(
+        transaction_func=_get_professional_cv,
+        db=db,
+    )
 
 
 @router.post(
@@ -192,6 +217,7 @@ def upload_professional_cv(
         get_entities_fn=_upload_professional_cv,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"CV for professional with id {professional_id} not uploaded",
+        db=db,
     )
 
 
@@ -210,6 +236,7 @@ def delete_professional_cv(
         get_entities_fn=_delete_professional_cv,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"CV for professional with id {professional_id} not deleted",
+        db=db,
     )
 
 
@@ -231,6 +258,7 @@ def toggle_private_matches(
         get_entities_fn=_toggle_private_matches,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Private matches for professional with id {professional_id} not toggled",
+        db=db,
     )
 
 
@@ -256,6 +284,7 @@ def get_professional_applications(
         get_entities_fn=_get_professional_applications,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Applications for professional with id {professional_id} not found",
+        db=db,
     )
 
 
@@ -274,6 +303,7 @@ def get_professional_skills(
         get_entities_fn=_get_professional_skills,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Skills for professional with id {professional_id} not found",
+        db=db,
     )
 
 
@@ -294,4 +324,5 @@ def get_professional_match_requests(
         get_entities_fn=_get_professional_match_requests,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Match requests for professional with id {professional_id} not found",
+        db=db,
     )

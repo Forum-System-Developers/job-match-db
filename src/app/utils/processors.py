@@ -16,6 +16,7 @@ def process_request(
     get_entities_fn: Callable,
     status_code: int,
     not_found_err_msg: str,
+    db: Session,
 ) -> JSONResponse:
     """
     Processes a request by calling the provided function and handling exceptions.
@@ -24,6 +25,7 @@ def process_request(
         get_entities_fn (Callable): A function that retrieves entities.
         status_code (int): The status code to return on successful processing.
         not_found_err_msg (str): The error message to log if a TypeError occurs.
+        db (Session): The SQLAlchemy database session.
 
     Returns:
         JSONResponse: A JSON response with the appropriate status code and content.
@@ -34,8 +36,14 @@ def process_request(
         SyntaxError: If a syntax error occurs.
     """
     try:
-        response = get_entities_fn()
-        return JSONResponse(status_code=status_code, content=_format_response(response))
+        response = process_db_transaction(
+            transaction_func=get_entities_fn,
+            db=db,
+        )
+        return JSONResponse(
+            status_code=status_code,
+            content=_format_response(response),
+        )
     except ApplicationError as ex:
         logger.exception(str(ex))
         return JSONResponse(

@@ -2,6 +2,7 @@ import logging
 from uuid import UUID
 
 from fastapi import status
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from app.exceptions.custom_exceptions import ApplicationError
@@ -50,7 +51,7 @@ def get_job_ad_by_id(job_ad_id: UUID, db: Session) -> JobAd:
     Raises:
         ApplicationError: If the job advertisement with the given ID is not found.
     """
-    job_ad = db.query(JobAd).get(job_ad_id)
+    job_ad = db.query(JobAd).filter(JobAd.id == job_ad_id).first()
     if job_ad is None:
         logger.error(f"Job ad with id {job_ad_id} not found")
         raise ApplicationError(
@@ -177,7 +178,10 @@ def get_match_by_id(
     match = (
         db.query(Match)
         .filter(
-            Match.job_ad_id == job_ad_id, Match.job_application_id == job_application_id
+            and_(
+                Match.job_ad_id == job_ad_id,
+                Match.job_application_id == job_application_id,
+            )
         )
         .first()
     )

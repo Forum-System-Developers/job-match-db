@@ -676,7 +676,7 @@ def test_update_updatesNothing_whenNoFieldsAreProvided(
         job_application_id=mock_job_application.id,
         db=mock_db,
     )
-    assert not isinstance(mock_job_application, datetime)
+    assert not isinstance(mock_job_application.updated_at, datetime)
     assert mock_job_application.is_main == mock_job_application.is_main
     assert result.application_id == mock_job_application.id
     assert result.name == mock_job_application.name

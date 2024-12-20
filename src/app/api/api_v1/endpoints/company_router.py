@@ -8,7 +8,7 @@ from app.schemas.common import FilterParams
 from app.schemas.company import CompanyCreate, CompanyUpdate
 from app.services import company_service
 from app.sql_app.database import get_db
-from app.utils.processors import process_request
+from app.utils.processors import process_db_transaction, process_request
 
 router = APIRouter()
 
@@ -27,6 +27,7 @@ def get_all_companies(
         get_entities_fn=_get_all_companies,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="No companies found",
+        db=db,
     )
 
 
@@ -45,6 +46,7 @@ def get_company_by_username(
         get_entities_fn=_get_company_by_username,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Company with username {username} not found",
+        db=db,
     )
 
 
@@ -63,6 +65,7 @@ def get_company_by_email(
         get_entities_fn=_get_company_by_email,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Company with email {email} not found",
+        db=db,
     )
 
 
@@ -81,6 +84,7 @@ def get_company_by_phone(
         get_entities_fn=_get_company_by_phone,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Company with phone number {phone_number} not found",
+        db=db,
     )
 
 
@@ -96,6 +100,7 @@ def get_company_by_id(company_id: UUID, db: Session = Depends(get_db)) -> JSONRe
         get_entities_fn=_get_company_by_id,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Company with id {company_id} not found",
+        db=db,
     )
 
 
@@ -114,6 +119,7 @@ def create_company(
         get_entities_fn=_create_company,
         status_code=status.HTTP_201_CREATED,
         not_found_err_msg="Company not created",
+        db=db,
     )
 
 
@@ -137,6 +143,7 @@ def update_company(
         get_entities_fn=_update_company,
         status_code=status.HTTP_200_OK,
         not_found_err_msg=f"Company with id {company_id} not updated",
+        db=db,
     )
 
 
@@ -160,6 +167,7 @@ def upload_logo(
         get_entities_fn=_upload_logo,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not upload logo",
+        db=db,
     )
 
 
@@ -171,7 +179,13 @@ def download_logo(
     company_id: UUID,
     db: Session = Depends(get_db),
 ) -> StreamingResponse:
-    return company_service.download_logo(company_id=company_id, db=db)
+    def _download_logo():
+        return company_service.download_logo(company_id=company_id, db=db)
+
+    return process_db_transaction(
+        transaction_func=_download_logo,
+        db=db,
+    )
 
 
 @router.delete(
@@ -189,4 +203,5 @@ def delete_logo(
         get_entities_fn=_delete_logo,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="Could not delete logo",
+        db=db,
     )

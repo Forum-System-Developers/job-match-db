@@ -18,4 +18,5 @@ def get_all_categories(db: Session = Depends(get_db)) -> JSONResponse:
         get_entities_fn=_get_all_categories,
         status_code=status.HTTP_200_OK,
         not_found_err_msg="No categories found",
+        db=db,
     )
